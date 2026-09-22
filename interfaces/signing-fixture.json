@@ -1,0 +1,62 @@
+{
+  "description": "Static encoding fixture; placeholder addresses, not a live authorization.",
+  "domain": {
+    "name": "AgentIntentExecutor",
+    "version": "1",
+    "chainId": "31337",
+    "verifyingContract": "0x0000000000000000000000000000000000000010"
+  },
+  "types": {
+    "TransferIntent": [
+      {
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "name": "agent",
+        "type": "address"
+      },
+      {
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "name": "nonce",
+        "type": "uint256"
+      },
+      {
+        "name": "epoch",
+        "type": "uint256"
+      },
+      {
+        "name": "validAfter",
+        "type": "uint256"
+      },
+      {
+        "name": "deadline",
+        "type": "uint256"
+      }
+    ]
+  },
+  "intent": {
+    "owner": "0x0000000000000000000000000000000000000020",
+    "agent": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "token": "0x0000000000000000000000000000000000000030",
+    "recipient": "0x0000000000000000000000000000000000000040",
+    "amount": "1000000000000000000",
+    "nonce": "7",
+    "epoch": "1",
+    "validAfter": "1000",
+    "deadline": "2000"
+  },
+  "digest": "0x6003c5ce45b47a12915eb42ffe9320c293ffa1e7c646101c2b257bd4b25f9ca0",
+  "signature": "0xfa867f080c3d9e1ba2825e0bef4ceef7a62f8ff3396eaf14f52531522006adf827c59e31002e92a949286b2216f3fbe9d887a69abe7190915d60cbb9eddea2d11c"
+}

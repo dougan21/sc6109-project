@@ -1,0 +1,15 @@
+[profile.default]
+src = "contracts/src"
+test = "contracts/test"
+out = "contracts/out"
+cache_path = "contracts/cache"
+libs = ["node_modules"]
+solc_version = "0.8.30"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+remappings = ["@openzeppelin/contracts/=node_modules/@openzeppelin/contracts/"]
+
+[profile.default.fuzz]
+runs = 32
+seed = "0x6019"

@@ -4,7 +4,7 @@
 
 This service implements B's backend responsibilities from the Option 1 plan. API acceptance means that a signed request was validated and durably queued. **It does not mean the contract authorized or executed the transfer.** Contract simulation and execution are separate steps.
 
-The service has a default mock adapter and a real ethers JSON-RPC adapter. The latter is locally tested with an explicitly limited Solidity fixture. No A-owned authorization/token contract or C-owned SDK has been supplied to this branch. The B-side intent type and executor ABI are therefore integration drafts, not an ERC-4337 implementation or a claim of project-level fund safety.
+The service has a default mock adapter and a real ethers JSON-RPC adapter. The latter is locally tested with an explicitly limited Solidity fixture. The repository now includes an authorization executor, but this service's signing domain is still `AgentIntentBatchExecutor` rather than the contract's `AgentIntentExecutor`. The adapter remains gated pending domain/ABI integration; its fixture tests do not establish compatibility with the authorization executor.
 
 ## Run and verify
 
@@ -20,7 +20,7 @@ npm run dev
 In another terminal:
 
 ```bash
-npm run demo
+npm run demo:relayer
 ```
 
 The demo creates ephemeral signing keys in memory, submits twelve requests, and reports a runId and metrics. It refuses EVM mode because it does not register agents or grant allowances. Mock results are for workflow verification, not the course performance comparison.
@@ -180,4 +180,4 @@ Use a new runId when changing batch settings. The store rejects reuse of an expe
 - SQLite history has no retention/archival scheme; metrics read a run's records into memory. This is suitable for the bounded course prototype.
 - No real LLM, ERC-4337 claim, public authentication, public-chain benchmark, or production security review.
 
-See `docs/b-handoff.md` for the exact A/C/D/E integration checklist.
+See the root README for the contract workflow and the remaining domain/ABI integration boundary.

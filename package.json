@@ -7,18 +7,31 @@
     "node": ">=22.13.0 <23"
   },
   "scripts": {
+    "build": "node node_modules/@foundry-rs/forge/bin.mjs build",
     "dev": "node --env-file-if-exists=.env --import tsx services/relayer/src/main.ts",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test services/relayer/test/*.test.ts",
-    "demo": "node --import tsx services/relayer/scripts/demo.ts",
-    "check": "npm run typecheck && npm test"
+    "test": "npm run test:contracts && npm run test:relayer",
+    "test:contracts": "node node_modules/@foundry-rs/forge/bin.mjs test -vv",
+    "test:relayer": "node --import tsx --test services/relayer/test/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run fmt && npm run check:interfaces",
+    "fmt": "node node_modules/@foundry-rs/forge/bin.mjs fmt --check",
+    "chain": "node scripts/chain.mjs",
+    "demo": "npm run demo:contracts",
+    "demo:contracts": "node scripts/demo.mjs",
+    "demo:relayer": "node --env-file-if-exists=.env --import tsx services/relayer/scripts/demo.ts",
+    "export": "node scripts/export.mjs",
+    "check:interfaces": "node scripts/export.mjs --check",
+    "gas": "node scripts/gas.mjs",
+    "verify:local": "node scripts/verify-local.mjs"
   },
   "dependencies": {
-    "ethers": "^6.16.0",
+    "ethers": "6.17.0",
     "fastify": "^5.6.0"
   },
   "devDependencies": {
-    "@foundry-rs/anvil": "^1.7.1",
+    "@foundry-rs/forge": "1.7.1",
+    "@foundry-rs/anvil": "1.7.1",
+    "@openzeppelin/contracts": "5.4.0",
     "@types/node": "^22.19.0",
     "solc": "^0.8.37",
     "tsx": "^4.20.0",
