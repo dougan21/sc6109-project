@@ -160,4 +160,3 @@ The v1 ABI, event topics, signing fixture and creation bytecode are frozen in
 Change the interface only with a documented reason, updated fixtures/docs and verified
 compatibility, then explicitly regenerate the freeze. This is a prototype, not an
 audited production protocol or an ERC-4337 implementation.
-sc6109-project
