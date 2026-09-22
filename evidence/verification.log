@@ -1,0 +1,125 @@
+
+> build
+> node node_modules/@foundry-rs/forge/bin.mjs build
+
+Compiling 26 files with Solc 0.8.30
+Solc 0.8.30 finished in 1.32s
+Compiler run successful!
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ contracts/src/AgentIntentExecutor.sol:77:70
+   │
+77 │                 || policy.totalBudget < policy.maxAmountPerIntent || policy.validUntil <= block.timestamp
+   │                                                                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ contracts/src/AgentIntentExecutor.sol:116:35
+    │
+116 │             if (!policy.active || block.timestamp > policy.validUntil) revert InactiveAuthorization();
+    │                                   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ contracts/src/AgentIntentExecutor.sol:118:17
+    │
+118 │             if (intent.validAfter > block.timestamp || block.timestamp > intent.deadline) revert InvalidWindow();
+    │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ contracts/src/AgentIntentExecutor.sol:118:56
+    │
+118 │             if (intent.validAfter > block.timestamp || block.timestamp > intent.deadline) revert InvalidWindow();
+    │                                                        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[erc20-unchecked-transfer]: ERC20 'transfer' and 'transferFrom' calls should check the return value
+    ╭▸ contracts/test/AgentIntentExecutor.t.sol:304:9
+    │
+304 │         token.transfer(address(0x300), 850);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#erc20-unchecked-transfer
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ contracts/test/TokenDouble.sol:27:30
+   │
+27 │             blocked = !ok && bytes4(result) == bytes4(keccak256("ReentrancyGuardReentrantCall()"));
+   │                              ━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes4' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+
+> test
+> node node_modules/@foundry-rs/forge/bin.mjs test -vv
+
+No files changed, compilation skipped
+
+Ran 28 tests for contracts/test/AgentIntentExecutor.t.sol:ExecutorTest
+[PASS] testCallerCannotModifyAnotherOwnersPolicy() (gas: 338845)
+[PASS] testConfigurationUpdateInvalidatesPendingIntent() (gas: 79756)
+[PASS] testCumulativeBudgetFailureRollsBack() (gas: 188453)
+[PASS] testDuplicateBatchRollsBack() (gas: 170000)
+[PASS] testEmptyAndMismatchedBatchesRejected() (gas: 62598)
+[PASS] testExpiredAuthorizationRejected() (gas: 65067)
+[PASS] testExpiredIntentRejected() (gas: 65341)
+[PASS] testFuzzBatchMatchesSinglesAndConservesBalances(uint8,uint8) (runs: 32, μ: 2304774, ~: 2304774)
+[PASS] testFuzzBudgetAndReplayAcrossSequence(uint256) (runs: 32, μ: 821632, ~: 816770)
+[PASS] testInclusiveTimeBoundaries() (gas: 139841)
+[PASS] testInsufficientAllowanceRollsBackEarlierTransfer() (gas: 203462)
+[PASS] testInsufficientBalanceRollsBackEarlierTransfer() (gas: 222986)
+[PASS] testInvalidPoliciesRejected() (gas: 114137)
+[PASS] testLaterPolicyFailureRollsBack() (gas: 178776)
+[PASS] testMalformedSignatureRejected() (gas: 67893)
+[PASS] testPerIntentLimitRejected() (gas: 65806)
+[PASS] testReplayRejected() (gas: 152928)
+[PASS] testRevocationAndReauthorizationInvalidateOldSignatures() (gas: 229393)
+[PASS] testSingleTransferEmitsDigestAndUpdatesState() (gas: 151572)
+[PASS] testTamperedAmountRejected() (gas: 74491)
+[PASS] testTokenReturnValuesAndReentrancyGuard() (gas: 2941647)
+[PASS] testTooEarlyRejected() (gas: 64915)
+[PASS] testWrongChainRejected() (gas: 75207)
+[PASS] testWrongRecipientRejected() (gas: 65667)
+[PASS] testWrongSignerRejected() (gas: 74468)
+[PASS] testWrongTokenRejected() (gas: 65368)
+[PASS] testWrongVerifyingContractRejected() (gas: 1290644)
+[PASS] testZeroAmountRejected() (gas: 65678)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 119.03ms (191.52ms CPU time)
+
+Ran 1 test suite in 120.99ms (119.03ms CPU time): 28 tests passed, 0 failed, 0 skipped (28 total tests)
+
+> fmt
+> node node_modules/@foundry-rs/forge/bin.mjs fmt --check
+
+
+> check:interfaces
+> node scripts/export.mjs --check
+
+Frozen ABI, bytecode, event topics and signing fixture match.
+
+> verify:local
+> node scripts/verify-local.mjs
+
+Batch confirmed: 0x3a96dde3538818a4f79efcc31943fd446c07cfd3fc5b87d377e9f7f3c8e6fa98
+2 matching events; balances reconciled; replay and revocation rejected; reauthorization executed.
+Deployment addresses, ABI, and verified signing fixture: deployments/local.json
+┌─────────┬───────────┬───────────────────┬──────────────┬────────────────────┬──────────┬──────────────┬─────────────────────┐
+│ (index) │ batchSize │ successfulIntents │ transactions │ failedTransactions │ totalGas │ gasPerIntent │ gasReductionPercent │
+├─────────┼───────────┼───────────────────┼──────────────┼────────────────────┼──────────┼──────────────┼─────────────────────┤
+│ 0       │ 1         │ 20                │ 20           │ 0                  │ 2112084n │ 105604.2     │ 0                   │
+│ 1       │ 2         │ 20                │ 10           │ 0                  │ 1507184n │ 75359.2      │ 28.63995939555435   │
+│ 2       │ 5         │ 20                │ 4            │ 0                  │ 1144424n │ 57221.2      │ 45.81541264457285   │
+│ 3       │ 10        │ 20                │ 2            │ 0                  │ 1023622n │ 51181.1      │ 51.53497682857311   │
+│ 4       │ 20        │ 20                │ 1            │ 0                  │ 963168n  │ 48158.4      │ 54.39726829046572   │
+└─────────┴───────────┴───────────────────┴──────────────┴────────────────────┴──────────┴──────────────┴─────────────────────┘
+?? evidence/
