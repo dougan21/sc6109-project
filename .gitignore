@@ -1,5 +1,4 @@
 # Local planning and documentation (kept on disk, excluded from Git).
-/MY_PLAN_A.md
 /docs/
 
 # Dependencies and reproducible build output.
