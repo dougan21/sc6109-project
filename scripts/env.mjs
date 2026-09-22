@@ -19,6 +19,6 @@ if (url.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(ur
     || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
   throw new Error('RPC_URL must be a loopback HTTP URL without credentials, path, query or fragment');
 }
-export const rpcPort = port(url.port || '80', 'RPC_URL port');
+export const rpcPort = port(url.port, 'RPC_URL port');
 export const rpcHost = url.hostname.replace(/^\[|\]$/g, '');
 export const verifyPort = port(process.env.VERIFY_PORT ?? '18545', 'VERIFY_PORT');
