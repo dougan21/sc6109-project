@@ -1,0 +1,19 @@
+{
+  "name": "agent-intent-executor",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node node_modules/@foundry-rs/forge/bin.mjs build",
+    "test": "node node_modules/@foundry-rs/forge/bin.mjs test -vv",
+    "fmt": "node node_modules/@foundry-rs/forge/bin.mjs fmt --check",
+    "chain": "node node_modules/@foundry-rs/anvil/bin.mjs --chain-id 31337 --hardfork cancun",
+    "demo": "node scripts/demo.mjs",
+    "export": "node scripts/export.mjs"
+  },
+  "devDependencies": {
+    "@foundry-rs/forge": "1.7.1",
+    "@foundry-rs/anvil": "1.7.1",
+    "@openzeppelin/contracts": "5.4.0",
+    "ethers": "6.17.0"
+  }
+}

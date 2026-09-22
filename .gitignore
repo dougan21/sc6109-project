@@ -1,0 +1,6 @@
+MY_PLAN_A.md
+node_modules/
+contracts/out/
+contracts/cache/
+deployments/local.json
+.env
