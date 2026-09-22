@@ -8,7 +8,10 @@
     "fmt": "node node_modules/@foundry-rs/forge/bin.mjs fmt --check",
     "chain": "node node_modules/@foundry-rs/anvil/bin.mjs --chain-id 31337 --hardfork cancun",
     "demo": "node scripts/demo.mjs",
-    "export": "node scripts/export.mjs"
+    "export": "node scripts/export.mjs",
+    "check:interfaces": "node scripts/export.mjs --check",
+    "gas": "node scripts/gas.mjs",
+    "verify:local": "node scripts/verify-local.mjs"
   },
   "devDependencies": {
     "@foundry-rs/forge": "1.7.1",

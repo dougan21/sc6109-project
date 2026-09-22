@@ -24,6 +24,11 @@ npm run demo
 npm run export
 ```
 
+For a self-contained demo and contract gas comparison, run `npm run verify:local`
+after the build. It starts a separate local chain on port 18545, runs both workflows,
+and stops that chain automatically. Set `VERIFY_PORT` if that port is already in use.
+`npm run gas` runs only the gas comparison against an existing local chain.
+
 The chain binds to localhost with chain ID 31337 and the Cancun hardfork. The demo
 deploys fresh contracts, mints 20 TEST, approves a bounded allowance, authorizes the
 agent, and sends two signed transfers in one transaction through a separate relayer.
@@ -59,6 +64,7 @@ See [protocol and security boundaries](docs/protocol.md) for exact fields and be
 ```sh
 npm test
 npm run fmt
+npm run check:interfaces
 ```
 
 Tests cover signature/domain failures, caller isolation, epoch changes, timing and
@@ -67,8 +73,15 @@ token return handling, reentrancy, and batch/single equivalence. Randomized test
 32 runs and a fixed seed to keep feedback short. Solidity is pinned to 0.8.30 with
 optimizer enabled at 200 runs and Cancun EVM semantics. Build artifacts are ignored.
 
-The demo reports actual gas for its batch, not a throughput or gas-saving claim.
-Performance comparison requires paired workloads and accounting for failed attempts;
-it is outside this contract implementation. This is a prototype, not an audited
-production protocol or an ERC-4337 implementation.
+The contract gas comparison restores identical starting state for 20 transfers at
+batch sizes 1, 2, 5, 10, and 20. Raw receipts, setup costs, environment and calculation
+inputs are saved in `evidence/gas.json`; the summary is `evidence/gas.csv`. This is a
+compact gas review, not a throughput/latency experiment. See [acceptance evidence](docs/acceptance.md)
+and the [security demo guide](docs/security-demo.md).
+
+The v1 ABI, event topics, signing fixture and creation bytecode are frozen in
+`interfaces/freeze.json`. `npm run check:interfaces` detects drift after building.
+Change the interface only with a documented reason, updated fixtures/docs and verified
+compatibility, then explicitly regenerate the freeze. This is a prototype, not an
+audited production protocol or an ERC-4337 implementation.
 sc6109-project
