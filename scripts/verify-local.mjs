@@ -1,10 +1,9 @@
 import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 import assert from 'node:assert/strict';
+import { verifyPort as port } from './env.mjs';
 
 // Own a separate chain and always stop it; never reset an existing development chain.
-const port = Number(process.env.VERIFY_PORT ?? 18545);
-assert.ok(Number.isInteger(port) && port > 1024 && port < 65536);
 const rpc = `http://127.0.0.1:${port}`;
 let log = '';
 const chain = spawn(process.execPath, ['node_modules/@foundry-rs/anvil/bin.mjs', '--host', '127.0.0.1',

@@ -4,10 +4,9 @@ import { execFileSync } from 'node:child_process';
 import os from 'node:os';
 import { ContractFactory, HDNodeWallet, JsonRpcProvider, TypedDataEncoder, parseEther } from 'ethers';
 import { domain, types } from './typed-data.mjs';
+import { rpc } from './env.mjs';
 
 // Equal workload and identical initial state for every batch size. No timing claims.
-const rpc = process.env.RPC_URL ?? 'http://127.0.0.1:8545';
-assert.ok(['localhost', '127.0.0.1', '[::1]'].includes(new URL(rpc).hostname), 'Local RPC required');
 const provider = new JsonRpcProvider(rpc, undefined, { cacheTimeout: -1 });
 provider.pollingInterval = 50;
 const json = value => JSON.stringify(value, (_, v) => typeof v === 'bigint' ? v.toString() : v, 2) + '\n';

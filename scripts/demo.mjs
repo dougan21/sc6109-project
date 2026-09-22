@@ -2,12 +2,10 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { ContractFactory, HDNodeWallet, JsonRpcProvider, TypedDataEncoder, parseEther } from 'ethers';
 import { domain, types } from './typed-data.mjs';
+import { rpc } from './env.mjs';
 
 // Public Anvil development mnemonic. This script is intentionally local-chain only.
 const mnemonic = 'test test test test test test test test test test test junk';
-const rpc = process.env.RPC_URL ?? 'http://127.0.0.1:8545';
-const url = new URL(rpc);
-if (!['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)) throw new Error('Local RPC required');
 const provider = new JsonRpcProvider(rpc, undefined, { cacheTimeout: -1 });
 provider.pollingInterval = 100;
 try {
