@@ -1,23 +1,45 @@
 {
-  "name": "agent-intent-executor",
+  "name": "sc6109-project",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
-  "engines": { "node": ">=20.20.2" },
+  "engines": {
+    "node": ">=22.13.0 <23"
+  },
   "scripts": {
     "build": "node node_modules/@foundry-rs/forge/bin.mjs build",
-    "test": "node node_modules/@foundry-rs/forge/bin.mjs test -vv",
+    "dev": "node --env-file-if-exists=.env --import tsx services/relayer/src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:contracts && npm run test:relayer",
+    "test:contracts": "node node_modules/@foundry-rs/forge/bin.mjs test -vv",
+    "test:relayer": "node --import tsx --test services/relayer/test/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run fmt && npm run check:interfaces",
     "fmt": "node node_modules/@foundry-rs/forge/bin.mjs fmt --check",
     "chain": "node scripts/chain.mjs",
-    "demo": "node scripts/demo.mjs",
+    "demo": "npm run demo:contracts",
+    "demo:contracts": "node scripts/demo.mjs",
+    "demo:relayer": "node --env-file-if-exists=.env --import tsx services/relayer/scripts/demo.ts",
     "export": "node scripts/export.mjs",
     "check:interfaces": "node scripts/export.mjs --check",
     "gas": "node scripts/gas.mjs",
     "verify:local": "node scripts/verify-local.mjs"
   },
+  "dependencies": {
+    "ethers": "6.17.0",
+    "fastify": "^5.6.0"
+  },
   "devDependencies": {
     "@foundry-rs/forge": "1.7.1",
     "@foundry-rs/anvil": "1.7.1",
     "@openzeppelin/contracts": "5.4.0",
-    "ethers": "6.17.0"
+    "@types/node": "^22.19.0",
+    "solc": "^0.8.37",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "overrides": {
+    "solc": {
+      "tmp": "0.2.7"
+    }
   }
 }

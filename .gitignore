@@ -1,4 +1,4 @@
-# Local planning and documentation (kept on disk, excluded from Git).
+# Local documentation stays on disk, outside tracking.
 /docs/
 
 # Dependencies and reproducible build output.
@@ -6,8 +6,16 @@ node_modules/
 /contracts/out/
 /contracts/cache/
 /deployments/
+coverage/
 
-# Local credentials; sanitized templates remain eligible for tracking.
+# Runtime data and database sidecars.
+data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.lock.pid
+
+# Local credentials; sanitized templates remain trackable.
 .env
 .env.*
 !.env.example
