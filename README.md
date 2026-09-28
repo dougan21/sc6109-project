@@ -3,7 +3,8 @@
 Local EVM prototype for bounded, agent-signed ERC-20 transfers. Includes the executor,
 test token, pinned build tools, contract tests, signing format, and a runnable deployment
 and security demonstration. The repository also includes a durable intent API and
-relayer with a default mock mode. A scheduler and dashboard are not included.
+relayer that runs in mock mode by default or against the deployed executor. A scheduler
+and dashboard are not included.
 
 ## Run
 
@@ -40,18 +41,18 @@ contract demo; `npm run demo:contracts` is its explicit alias. The relayer's moc
 mode performs no token transfers and reports synthetic gas, not measured chain gas.
 
 `npm run test:contracts` runs the contract suite; `npm run test:relayer` runs the
-backend suite, including its EVM transport fixture. `npm test` runs both, and
+backend suite, including a real-executor Anvil test that needs `npm run build` first.
+`npm test` runs both, and
 `npm run check` adds TypeScript, formatting and interface checks. The relayer tests
 launch their own temporary Anvil instance. Node's SQLite experimental warning is
 expected on this runtime.
 
-The relayer currently signs for `AgentIntentBatchExecutor`, while the deployed
-contract domain is `AgentIntentExecutor`. Its EVM adapter was tested against a
-transport fixture, not this authorization contract. Keep `RELAYER_MODE=mock` and
-`EVM_ABI_CONFIRMED=false` until domain/ABI integration is implemented and verified;
-changing the executor address alone is insufficient. See
+The relayer signs for the contract's `AgentIntentExecutor` domain and uses the frozen
+ABI in `interfaces/`. To run it against a local chain, set `RELAYER_MODE=evm`, the
+deployed `EXECUTOR_ADDRESS`, `RPC_URL` and a dedicated `RELAYER_PRIVATE_KEY` in `.env`;
+`GET /agents?owner=...` then returns on-chain policies. See
 [relayer operation and API](services/relayer/README.md) for its configuration and
-recovery behavior. `/agents` remains unsupported by that service.
+recovery behavior, and [`docs/decisions.md`](docs/decisions.md) for interface decisions.
 
 ## Local configuration
 
@@ -152,8 +153,8 @@ batch sizes 1, 2, 5, 10, and 20. Raw receipts, setup costs, environment and calc
 inputs are saved in `evidence/gas.json`; the summary is `evidence/gas.csv`. This is a
 compact gas review, not a throughput/latency experiment. `evidence/verification.log`
 retains the clean-checkout verification. Archived addresses refer to that stopped
-local chain; rerun the demo for current addresses. `docs/` is local-only and is not
-needed to build, configure, run, or understand the contract interface.
+local chain; rerun the demo for current addresses. [`docs/`](docs/) holds the protocol
+explanation, security demonstration, acceptance record and decision log.
 
 The v1 ABI, event topics, signing fixture and creation bytecode are frozen in
 `interfaces/freeze.json`. `npm run check:interfaces` detects drift after building.

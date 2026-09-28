@@ -4,7 +4,7 @@
 
 This service implements B's backend responsibilities from the Option 1 plan. API acceptance means that a signed request was validated and durably queued. **It does not mean the contract authorized or executed the transfer.** Contract simulation and execution are separate steps.
 
-The service has a default mock adapter and a real ethers JSON-RPC adapter. The latter is locally tested with an explicitly limited Solidity fixture. The repository now includes an authorization executor, but this service's signing domain is still `AgentIntentBatchExecutor` rather than the contract's `AgentIntentExecutor`. The adapter remains gated pending domain/ABI integration; its fixture tests do not establish compatibility with the authorization executor.
+The service has a default mock adapter and a real ethers JSON-RPC adapter. The EVM adapter signs for the contract's `AgentIntentExecutor` domain, encodes calls with the frozen ABI in `interfaces/AgentIntentExecutor.json`, and is tested against the real executor and `MockToken` on a local Anvil node, including token balances, spent budget, consumed nonces, and revocation after preparation.
 
 ## Run and verify
 
@@ -25,23 +25,22 @@ npm run demo:relayer
 
 The demo creates ephemeral signing keys in memory, submits twelve requests, and reports a runId and metrics. It refuses EVM mode because it does not register agents or grant allowances. Mock results are for workflow verification, not the course performance comparison.
 
-Node 22 prints an experimental warning for `node:sqlite`; this is expected. `npm run check` includes an Anvil integration test and needs permission to spawn a child process and listen on the local loopback interface. The Anvil binary is an npm optional platform dependency; do not omit optional dependencies during installation. No compiler or node binary is downloaded at test runtime.
+Node 22 prints an experimental warning for `node:sqlite`; this is expected. `npm run check` includes an Anvil integration test that deploys the Forge build output, so run `npm run build` first; it needs permission to spawn a child process and listen on the local loopback interface. The Anvil binary is an npm optional platform dependency; do not omit optional dependencies during installation. No compiler or node binary is downloaded at test runtime.
 
 ## Source layout
 
 | File | Responsibility |
 |---|---|
 | `src/types.ts` | Intent, record, receipt, and adapter types |
-| `src/intent.ts` | Local B-side EIP-712 draft, schema validation, digest, signature recovery |
+| `src/intent.ts` | EIP-712 type (matches `scripts/typed-data.mjs`), schema validation, digest, signature recovery |
 | `src/api.ts` | HTTP routes and redacted responses |
 | `src/store.ts` | SQLite inbox, transaction outbox, attempt/state history, metrics |
 | `src/coordinator.ts` | One-at-a-time scheduling, batching, retry, and reconciliation |
 | `src/adapters/mock.ts` | Persistent orchestration simulator |
 | `src/adapters/evm.ts` | JSON-RPC checks, signing, broadcasting, and receipt decoding |
-| `src/adapters/executor-abi.ts` | Provisional executeBatch tuple and event indexing |
+| `src/adapters/executor-abi.ts` | Loads the frozen executor ABI from `interfaces/` |
 | `src/config.ts`, `src/lock.ts`, `src/main.ts` | Configuration, exclusive process ownership, startup/shutdown |
-| `test/` | API, state/recovery, configuration, and local EVM tests |
-| `test/fixtures/BExecutorFixture.sol` | TEST ONLY: signatures, nonce consumption, and event/rollback transport checks |
+| `test/` | API, state/recovery, configuration, frozen-interface, and real-executor EVM tests |
 
 ## Configuration
 
@@ -55,7 +54,7 @@ Node 22 prints an experimental warning for `node:sqlite`; this is expected. `npm
 | `DATABASE_PATH` | `data/relayer.sqlite` | Durable inbox/outbox |
 | `MOCK_LEDGER_PATH` | `data/mock-chain.json` | Mock-chain receipt and consumed-nonce ledger |
 | `CHAIN_ID` | `31337` | Signing domain and RPC chain identity |
-| `EXECUTOR_ADDRESS` | `0x1000000000000000000000000000000000000001` | Signing-domain verifying contract |
+| `EXECUTOR_ADDRESS` | `0x1000000000000000000000000000000000000001` | Signing-domain verifying contract; the placeholder is mock-only, and EVM mode requires the deployed executor |
 | `BATCH_SIZE` | `10` | 1–100 intents per batch; 1 is the single-intent baseline |
 | `MAX_WAIT_MS` | `1000` | 0–60000 milliseconds before an eligible small batch is flushed |
 | `MAX_ATTEMPTS` | `3` | Maximum distinct transaction attempts after definite reverts |
@@ -66,9 +65,9 @@ Node 22 prints an experimental warning for `node:sqlite`; this is expected. `npm
 | `CONFIRMATIONS` | `1` | EVM receipt depth; not a guarantee against later reorganizations |
 | `RPC_URL` | unset | Required HTTP(S) RPC URL in EVM mode |
 | `RELAYER_PRIVATE_KEY` | unset | Dedicated test relayer key, only in process configuration |
-| `EVM_ABI_CONFIRMED` | unset | Must be `true` to enable EVM mode after the team verifies the integration draft |
+| `AGENT_INDEX_FROM_BLOCK` | `0` | First block scanned for `AgentConfigured` events by `GET /agents`; normally the executor deployment block |
 
-The domain name is `AgentIntentBatchExecutor`, version `1`. Changing it requires an agreed source change and matching A/C changes. Database identity is bound to mode, domain, and relayer address; incompatible reuse fails. Never reuse an old database after resetting the chain underneath it. Keep the mock ledger and database together across restarts.
+The domain name is `AgentIntentExecutor`, version `1`, matching the contract. Changing it requires a contract change, a regenerated interface freeze, and matching C changes. Database identity is bound to mode, domain, and relayer address; incompatible reuse fails. Never reuse an old database after resetting the chain underneath it. Keep the mock ledger and database together across restarts.
 
 The EVM account must be dedicated to this relayer. An external pending transaction blocks signing a new transaction. RPC requests have a ten-second transport timeout. There is no automatic fee replacement, nonce cancellation, cross-process failover, or relayer reimbursement mechanism.
 
@@ -114,7 +113,7 @@ All routes are under the root path. There is no permissive CORS or public access
 | `GET /batches?runId=...&limit=50&offset=0` | `{batches:[...]}` |
 | `GET /batches/:batchId` | `{batch}` with transaction attempts and receipt evidence |
 | `GET /metrics?runId=...` | Per-run cumulative counts, timings, gas, and denominator information |
-| `GET /agents?owner=...` | Currently 501: registry query/indexing needs A's actual interface |
+| `GET /agents?owner=...` | `{owner,blockNumber,indexedFromBlock,agents:[...]}` in EVM mode; 501 in mock mode |
 
 Intent responses exclude signatures. Batch responses exclude signed raw transaction bytes. Rejected payloads and private keys are never returned or persisted as rejection evidence. Request bodies are limited to 64 KiB. Lists expose pagination rather than silently truncating an experiment.
 
@@ -124,7 +123,9 @@ Error shape:
 {"error":{"code":"NONCE_CONFLICT","message":"This owner, agent, epoch, and nonce are already reserved by another intent."}}
 ```
 
-Important errors: 400 `INVALID_SCHEMA`, `INVALID_INTEGER`, `INVALID_SIGNATURE`, `INTENT_EXPIRED`; 409 `NONCE_CONFLICT` or `RUN_CONFIG_CHANGED`; 413 `BODY_TOO_LARGE`; 503 `QUEUE_FULL` at 10000 outstanding intents; 501 `UNSUPPORTED` for registry lookup. Unknown internal errors use a generic message and never expose provider exceptions or request contents.
+Important errors: 400 `INVALID_SCHEMA`, `INVALID_INTEGER`, `INVALID_SIGNATURE`, `INTENT_EXPIRED`; 409 `NONCE_CONFLICT` or `RUN_CONFIG_CHANGED`; 413 `BODY_TOO_LARGE`; 503 `QUEUE_FULL` at 10000 outstanding intents; 501 `UNSUPPORTED` for agent lookup in mock mode. Unknown internal errors use a generic message and never expose provider exceptions or request contents.
+
+`GET /agents` discovers agents from the owner's `AgentConfigured` events, then reads each `getAgentPolicy` at the same block. Revoked or expired policies are still listed so the owner can see their state; uint256 fields are decimal strings. The response reflects chain state at `blockNumber`, not queued intents.
 
 ## Queue and batch semantics
 
@@ -172,12 +173,11 @@ Use a new runId when changing batch settings. The store rejects reuse of an expe
 
 ## Known limits and next handoffs
 
-- A's registry, owner policy, token balances, authorization revocation, allowances, and full events require integration; `/agents` remains explicit 501.
 - C's shared SDK is not yet available. B's local schema helpers must converge with it using shared fixtures.
-- The test executor validates signing/event transport but does not transfer ERC-20 tokens or implement budgets. It must not be deployed as the project executor.
+- `npm run demo:relayer` is mock-only because it does not deploy contracts, fund owners, or grant allowances. EVM mode is exercised by the Anvil test; a runnable relayer-over-chain demo is still to do.
 - Single relayer; no distributed queue lease, process failover, gas-price replacement, or automatic recovery of external nonce replacements.
 - Confirmation depth is configurable, but there is no rollback of already-confirmed records after a later chain reorganization.
 - SQLite history has no retention/archival scheme; metrics read a run's records into memory. This is suitable for the bounded course prototype.
 - No real LLM, ERC-4337 claim, public authentication, public-chain benchmark, or production security review.
 
-See the root README for the contract workflow and the remaining domain/ABI integration boundary.
+See the root README for the contract workflow and `docs/decisions.md` for the integration decisions.

@@ -8,7 +8,7 @@ import { Store } from '../src/store.js';
 import { Coordinator, DEFAULT_COORDINATOR_OPTIONS } from '../src/coordinator.js';
 import type { IntentDomain, TransferIntent } from '../src/types.js';
 
-export const DOMAIN: IntentDomain = { name: 'AgentIntentBatchExecutor', version: '1', chainId: 31337,
+export const DOMAIN: IntentDomain = { name: 'AgentIntentExecutor', version: '1', chainId: 31337,
   verifyingContract: '0x1000000000000000000000000000000000000001' };
 export const signer = Wallet.createRandom();
 export const BASE_TIME = 1_800_000_000_000;

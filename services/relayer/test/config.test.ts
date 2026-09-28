@@ -8,10 +8,15 @@ import { acquireLock } from '../src/lock.js';
 import { Store } from '../src/store.js';
 import { harness, normalized } from './helpers.js';
 
+const KEY='0x'+'11'.repeat(32);
+const EVM={RELAYER_MODE:'evm',RELAYER_PRIVATE_KEY:KEY,RPC_URL:'http://127.0.0.1:8545',EXECUTOR_ADDRESS:'0x5FbDB2315678afecb367f032d93F642f64180aa3'};
 test('safe defaults, integer limits, loopback binding, and explicit EVM readiness',()=>{
   const c=loadConfig({}); assert.equal(c.mode,'mock'); assert.equal(c.host,'127.0.0.1');
   for(const env of [{RELAYER_MODE:'other'},{HOST:'0.0.0.0'},{BATCH_SIZE:'0'},{MAX_WAIT_MS:'-1'},{CHAIN_ID:'NaN'},{RELAYER_MODE:'evm'},
-    {RELAYER_MODE:'evm',EVM_ABI_CONFIRMED:'true'},{DATABASE_PATH:'same',MOCK_LEDGER_PATH:'same'}]) assert.throws(()=>loadConfig(env));
+    {RELAYER_MODE:'evm',RELAYER_PRIVATE_KEY:KEY,RPC_URL:'http://127.0.0.1:8545'},{...EVM,EXECUTOR_ADDRESS:'0x1000000000000000000000000000000000000001'},
+    {...EVM,RELAYER_PRIVATE_KEY:'0x12'},{...EVM,RPC_URL:'ws://127.0.0.1:8545'},{AGENT_INDEX_FROM_BLOCK:'-1'},{DATABASE_PATH:'same',MOCK_LEDGER_PATH:'same'}]) assert.throws(()=>loadConfig(env));
+  const evm=loadConfig({...EVM,AGENT_INDEX_FROM_BLOCK:'7'});
+  assert.equal(evm.domain.name,'AgentIntentExecutor'); assert.equal(evm.domain.verifyingContract,EVM.EXECUTOR_ADDRESS); assert.equal(evm.agentIndexFromBlock,7);
 });
 test('exclusive process lock prevents a second sender and releases safely',()=>{
   const dir=mkdtempSync(join(tmpdir(),'sc6109-lock-')),path=join(dir,'db');

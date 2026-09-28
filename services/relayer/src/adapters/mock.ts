@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '
 import { dirname } from 'node:path';
 import { hexlify, keccak256, toUtf8Bytes, toUtf8String } from 'ethers';
 import { normalizeSubmission, SubmissionError } from '../intent.js';
-import type { ChainGateway, ExecutionReceipt, IntentDomain, PreparedTransaction, PreflightResult, SignedIntent } from '../types.js';
+import type { AgentsView, ChainGateway, ExecutionReceipt, IntentDomain, PreparedTransaction, PreflightResult, SignedIntent } from '../types.js';
 
 interface Ledger { domain: IntentDomain; nextNonce: number; consumed: Record<string, string>; receipts: Record<string, ExecutionReceipt> }
 interface MockPayload { domain: IntentDomain; nonce: number; intents: SignedIntent[] }
@@ -66,5 +66,5 @@ export class MockGateway implements ChainGateway {
     this.persist(next);
   }
   async receipt(txHash: string): Promise<ExecutionReceipt | null> { return this.ledger.receipts[txHash] ? structuredClone(this.ledger.receipts[txHash]) : null; }
-  async agents(_owner: string): Promise<unknown> { throw new SubmissionError('UNSUPPORTED', 'Mock mode does not model owner authorization.', 501); }
+  async agents(_owner: string): Promise<AgentsView> { throw new SubmissionError('UNSUPPORTED', 'Mock mode does not model owner authorization.', 501); }
 }

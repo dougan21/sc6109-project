@@ -1,13 +1,15 @@
-import { FetchRequest, Interface, JsonRpcProvider, Wallet, getAddress, keccak256 } from 'ethers';
+import { Contract, FetchRequest, Interface, JsonRpcProvider, Wallet, dataSlice, getAddress, keccak256, zeroPadValue } from 'ethers';
 import { EXECUTOR_ABI } from './executor-abi.js';
 import { SubmissionError } from '../intent.js';
-import type { ChainGateway, ExecutionReceipt, IntentDomain, PreparedTransaction, PreflightResult, SignedIntent } from '../types.js';
+import type { AgentsView, ChainGateway, ExecutionReceipt, IntentDomain, PreparedTransaction, PreflightResult, SignedIntent } from '../types.js';
 
 export interface EvmOptions {
   domain: IntentDomain; rpcUrl: string; privateKey: string; maxGasPerBatch: string; confirmations: number;
+  // First block scanned for AgentConfigured events; normally the executor deployment block.
+  indexFromBlock: number;
 }
 
-/** Real JSON-RPC transport, gated in main until the team confirms the provisional executor ABI. */
+/** Real JSON-RPC transport for AgentIntentExecutor. */
 export class EthersGateway implements ChainGateway {
   readonly mode = 'evm' as const;
   readonly domain: IntentDomain;
@@ -88,8 +90,21 @@ export class EthersGateway implements ChainGateway {
     return { txHash: receipt.hash, success: receipt.status === 1, intentIds, blockNumber: receipt.blockNumber,
       gasUsed: receipt.gasUsed.toString(), effectiveGasPrice: receipt.gasPrice.toString() };
   }
-  async agents(_owner: string): Promise<unknown> {
-    throw new SubmissionError('UNSUPPORTED', 'Agent enumeration requires the registry ABI and indexing agreement with A.', 501);
+  async agents(owner: string): Promise<AgentsView> {
+    if (!this.ready) throw new Error('Initialize the EVM adapter before use.');
+    // The contract has no agent enumeration: discover agents from events, then read each policy at one block.
+    const blockNumber = await this.provider.getBlockNumber();
+    const logs = await this.provider.getLogs({ address: this.domain.verifyingContract,
+      topics: [this.contractInterface.getEvent('AgentConfigured')!.topicHash, zeroPadValue(owner, 32)],
+      fromBlock: this.options.indexFromBlock, toBlock: blockNumber });
+    const agents = [...new Set(logs.map(log => getAddress(dataSlice(log.topics[2]!, 12))))];
+    const executor = new Contract(this.domain.verifyingContract, this.contractInterface, this.provider);
+    const policies = await Promise.all(agents.map(agent =>
+      executor.getFunction('getAgentPolicy')(owner, agent, { blockTag: blockNumber })));
+    return { blockNumber, indexedFromBlock: this.options.indexFromBlock, agents: policies.map(p => ({
+      agent: getAddress(p.agent), token: getAddress(p.token), recipient: getAddress(p.recipient),
+      maxAmountPerIntent: p.maxAmountPerIntent.toString(), totalBudget: p.totalBudget.toString(), spent: p.spent.toString(),
+      validUntil: p.validUntil.toString(), active: p.active, epoch: p.epoch.toString() })) };
   }
   close() { this.provider.destroy(); }
 }

@@ -1,7 +1,7 @@
 import { getAddress, Signature, TypedDataEncoder, verifyTypedData, ZeroAddress } from 'ethers';
 import type { IntentDomain, TransferIntent } from './types.js';
 
-// Local B-side contract draft. A and C must agree this exact type and domain before integration.
+// Must match contracts/src/AgentIntentExecutor.sol and scripts/typed-data.mjs; checked against interfaces/signing-fixture.json.
 export const TRANSFER_TYPES = {
   TransferIntent: [
     { name: 'owner', type: 'address' },

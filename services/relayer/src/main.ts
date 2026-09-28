@@ -16,7 +16,8 @@ async function main() {
     gateway = config.mode === 'mock'
       ? new MockGateway({ domain: config.domain, ledgerPath: config.mockLedgerPath })
       : new EthersGateway({ domain: config.domain, rpcUrl: config.rpcUrl!, privateKey: config.privateKey!,
-        maxGasPerBatch: config.coordinator.maxGasPerBatch, confirmations: config.confirmations });
+        maxGasPerBatch: config.coordinator.maxGasPerBatch, confirmations: config.confirmations,
+        indexFromBlock: config.agentIndexFromBlock });
     if (gateway instanceof EthersGateway) await gateway.initialize();
     store = new Store(config.databasePath, { mode: config.mode, domain: config.domain, relayerAddress: gateway.relayerAddress,
       coordinator: config.coordinator, confirmations: config.confirmations, nodeVersion: process.version });
