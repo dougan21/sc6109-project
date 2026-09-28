@@ -154,7 +154,7 @@ inputs are saved in `evidence/gas.json`; the summary is `evidence/gas.csv`. This
 compact gas review, not a throughput/latency experiment. `evidence/verification.log`
 retains the clean-checkout verification. Archived addresses refer to that stopped
 local chain; rerun the demo for current addresses. [`docs/`](docs/) holds the protocol
-explanation, security demonstration, acceptance record, decision log and B handoff notes.
+explanation, security demonstration, acceptance record and decision log.
 
 The v1 ABI, event topics, signing fixture and creation bytecode are frozen in
 `interfaces/freeze.json`. `npm run check:interfaces` detects drift after building.
