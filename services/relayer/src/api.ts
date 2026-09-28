@@ -151,7 +151,7 @@ export function buildApi({ store, gateway, coordinator, clock = Date.now }: ApiO
     knownQuery(query, ['owner']);
     const owner = normalizeAddress(query.owner);
     try {
-      return { owner, agents: await gateway.agents(owner) };
+      return { owner, ...await gateway.agents(owner) };
     } catch (error) {
       const problem = publicError(error);
       if (problem.status === 501) throw new SubmissionError(problem.error.code, problem.error.message, 501);

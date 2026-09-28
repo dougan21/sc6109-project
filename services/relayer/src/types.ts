@@ -82,7 +82,26 @@ export interface StateEvent {
 export type PreflightResult = { ok: true; gasEstimate: string }
   | { ok: false; kind: 'invalid' | 'oversized'; code: string; message: string };
 
-// B's adapter boundary. A's deployed ABI and C's shared SDK must be agreed before EVM integration.
+export interface AgentPolicyView {
+  agent: string;
+  token: string;
+  recipient: string;
+  maxAmountPerIntent: string;
+  totalBudget: string;
+  spent: string;
+  validUntil: string;
+  active: boolean;
+  epoch: string;
+}
+
+// Policies are read at `blockNumber`; agents are discovered from AgentConfigured events since `indexedFromBlock`.
+export interface AgentsView {
+  blockNumber: number;
+  indexedFromBlock: number;
+  agents: AgentPolicyView[];
+}
+
+// B's adapter boundary, bound to A's frozen executor ABI and EIP-712 domain.
 export interface ChainGateway {
   readonly mode: 'mock' | 'evm';
   readonly domain: IntentDomain;
@@ -93,7 +112,7 @@ export interface ChainGateway {
   broadcast(transaction: PreparedTransaction): Promise<void>;
   receipt(txHash: string): Promise<ExecutionReceipt | null>;
   // Informational policy query; must not fabricate a policy when unavailable.
-  agents(owner: string): Promise<unknown>;
+  agents(owner: string): Promise<AgentsView>;
   close?(): void | Promise<void>;
 }
 
