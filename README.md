@@ -4,7 +4,8 @@ Local EVM prototype for bounded, agent-signed ERC-20 transfers. Includes the exe
 test token, pinned build tools, contract tests, signing format, and a runnable deployment
 and security demonstration. The repository also includes a durable intent API and
 relayer that runs in mock mode by default or against the deployed executor, and an SDK
-that signs and schedules bounded transfers. A dashboard is not included.
+that signs and schedules bounded transfers. Member D's independent frontend and
+real-chain agent demonstration are in [`apps/web/`](apps/web/README.md).
 
 ## Run
 
