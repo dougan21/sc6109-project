@@ -3,8 +3,8 @@
 Local EVM prototype for bounded, agent-signed ERC-20 transfers. Includes the executor,
 test token, pinned build tools, contract tests, signing format, and a runnable deployment
 and security demonstration. The repository also includes a durable intent API and
-relayer that runs in mock mode by default or against the deployed executor. A scheduler
-and dashboard are not included.
+relayer that runs in mock mode by default or against the deployed executor, and an SDK
+that signs and schedules bounded transfers. A dashboard is not included.
 
 ## Run
 
@@ -53,6 +53,14 @@ deployed `EXECUTOR_ADDRESS`, `RPC_URL` and a dedicated `RELAYER_PRIVATE_KEY` in 
 `GET /agents?owner=...` then returns on-chain policies. See
 [relayer operation and API](services/relayer/README.md) for its configuration and
 recovery behavior, and [`docs/decisions.md`](docs/decisions.md) for interface decisions.
+
+## Agent SDK
+
+Member C's signer and scheduled transfer agent are in [`sdk/`](sdk/README.md). The SDK signs `TransferIntent` for the frozen `AgentIntentExecutor` domain, stores each occurrence's signature before submitting it, and posts `{intent, signature, runId}` to the relayer. A restart resubmits the stored signature. It does not create a second one.
+
+`npm run test:sdk` checks the signing fixture, the policy guardrails, the one-signature journal, relayer acceptance, and a transfer through the deployed executor. The chain test needs `npm run build` first. `npm test` runs the SDK suite after the contract and relayer suites.
+
+The mock demonstration does not move tokens. Start `npm run dev`, then in another terminal run `npm run demo:agent`. It uses an explicit static policy because mock mode does not expose owner authorization. Stopping the agent does not revoke a signature that was already created.
 
 ## Local configuration
 

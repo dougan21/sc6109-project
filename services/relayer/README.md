@@ -173,7 +173,7 @@ Use a new runId when changing batch settings. The store rejects reuse of an expe
 
 ## Known limits and next handoffs
 
-- C's shared SDK is not yet available. B's local schema helpers must converge with it using shared fixtures.
+- C's SDK in `sdk/` owns `TRANSFER_TYPES`. This service imports that object. Request validation and queue behavior stay here. Both test suites check `interfaces/signing-fixture.json`.
 - `npm run demo:relayer` is mock-only because it does not deploy contracts, fund owners, or grant allowances. EVM mode is exercised by the Anvil test; a runnable relayer-over-chain demo is still to do.
 - Single relayer; no distributed queue lease, process failover, gas-price replacement, or automatic recovery of external nonce replacements.
 - Confirmation depth is configurable, but there is no rollback of already-confirmed records after a later chain reorganization.
