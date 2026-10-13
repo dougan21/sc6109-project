@@ -2,7 +2,7 @@
 
 检查日期：2026-10-13。PR：[feat: add the scheduled transfer agent SDK](https://github.com/dougan21/sc6109-project/pull/4)，作者 `incyashraj`，head `f0971da373786a6e6a67b95444a114e27d194505`，base `7cd09b7`。检查时为 open、可合并，无 GitHub 自动检查结果；不能将此视为 CI 通过。
 
-结论：适合继续推进 D 的本地演示。在本次单进程、独立 journal、新授权 epoch、固定本地链的范围内，未发现阻止接入的问题。SDK 评审阶段将该提交快进到本地 `codex/d-frontend` 完成验证；没有合并或改写 C 的分支，也没有代替组员发布 GitHub 评审意见。后续 D 提交按 README 的依赖顺序单独评审与合并。
+结论：适合继续推进 D 的本地演示。在本次单进程、独立 journal、新授权 epoch、固定本地链的范围内，未发现阻止接入的问题。SDK 评审阶段将该提交快进到本地 `codex/d-frontend` 完成验证；没有改写 C 的分支或代替组员发布 GitHub 评审意见。随后按用户授权将 PR #4 合并到 `main`；D 的 PR #5 单独提交前端、演示与验证文档。
 
 ## 已核对
 

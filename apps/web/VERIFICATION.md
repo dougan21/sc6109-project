@@ -1,6 +1,6 @@
 # D 实现验证记录
 
-日期：2026-10-13（Asia/Singapore）。D 分支 `codex/d-frontend`；验证基线为组员 PR #4 的 `f0971da373786a6e6a67b95444a114e27d194505`（`main@7cd09b7` 上的 C SDK 提交）。D PR 暂以 `feat/agent-sdk` 为基线，合并顺序见 README。
+日期：2026-10-13（Asia/Singapore）。D 分支 `codex/d-frontend`；验证基线为组员 PR #4 的 `f0971da373786a6e6a67b95444a114e27d194505`（`main@7cd09b7` 上的 C SDK 提交）。该 SDK 已随 PR #4 合并到 `main`；D 的 PR #5 面向 `main`，单独提交 D 的改动。
 
 ## 深蓝配色与 PR #4 联调（2026-10-13）
 

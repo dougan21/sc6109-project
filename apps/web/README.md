@@ -2,7 +2,7 @@
 
 独立的 React + TypeScript 前端。D 应用代码、演示、测试与文档都在 `apps/web/`，根 README 只增加入口；已有合约、relayer、SDK、根依赖和接口不改动。前端编译期复用 B 的类型，运行时直接复用 `interfaces/` ABI 和 `evidence/gas.csv`，避免维护第二份协议。
 
-本实现基于组员的 [PR #4](https://github.com/dougan21/sc6109-project/pull/4)（`f0971da`）接入 C 的定时转账 SDK。D PR 暂以 `feat/agent-sdk` 为基线，便于单独评审 D 改动；应先合并 #4，再将 D PR 改为面向 `main` 后合并。评审与验证结论见 [PR_REVIEW.md](PR_REVIEW.md)。
+本实现基于组员的 [PR #4](https://github.com/dougan21/sc6109-project/pull/4)（`f0971da`）接入 C 的定时转账 SDK。该依赖已合并到 `main`，D 的 [PR #5](https://github.com/dougan21/sc6109-project/pull/5) 单独提交前端、演示与验证文档。评审与验证结论见 [PR_REVIEW.md](PR_REVIEW.md)。
 
 ## 启动
 
