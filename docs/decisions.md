@@ -16,6 +16,7 @@ metrics must add an entry here and notify the affected owners (plan §9.7).
 | D-008 | 2026-09-28 | A/B | Relayer adopts the contract domain and frozen ABI |
 | D-009 | 2026-09-28 | A/B | `GET /agents` reads policies via events |
 | D-010 | 2026-09-28 | A/B | Relayer EVM tests use the real executor |
+| D-011 | 2026-10-13 | C | SDK owns signing types, nonces, and the schedule journal |
 
 ## D-001 One executor contract
 
@@ -100,3 +101,19 @@ nonces, atomic preflight rejection, and a genuine reverted receipt when the owne
 revokes after the transaction is prepared. The fixture's `solc` compiler dependency is
 removed. The relayer tests therefore need `npm run build` first; `npm test` already runs
 the contract suite, which builds, before the relayer suite.
+
+## D-011 SDK owns signing types, nonces, and the schedule journal
+
+`sdk/` is the signer. `TRANSFER_TYPES`, the domain name `AgentIntentExecutor`, and version
+`1` are defined once there. The relayer imports that object (D-008) and still validates
+requests. The SDK allocates the next decimal nonce per `(owner, agent, epoch)` in its own
+SQLite journal and commits the nonce only together with the signature. Each schedule
+occurrence is signed at most once: the signature is stored before submission, and a
+restart resubmits that signature. It does not replace a rejected signature, because a
+second valid signature could also be executed. The local deadline is the earlier of the
+schedule window and `policy.validUntil`. Amounts already covered by a stored signature
+stay reserved against the budget until the policy's reported `spent` catches up.
+
+Mock mode has no on-chain policy. `npm run demo:agent` therefore uses an explicit static
+policy and does not move tokens. `contractPolicySource` reads `getAgentPolicy` for a real
+executor. No contract or ABI change.

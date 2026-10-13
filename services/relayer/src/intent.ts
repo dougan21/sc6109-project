@@ -1,20 +1,9 @@
 import { getAddress, Signature, TypedDataEncoder, verifyTypedData, ZeroAddress } from 'ethers';
 import type { IntentDomain, TransferIntent } from './types.js';
+// Field order is owned by the SDK and checked against interfaces/signing-fixture.json.
+import { TRANSFER_TYPES } from '../../../sdk/src/typed-data.js';
 
-// Must match contracts/src/AgentIntentExecutor.sol and scripts/typed-data.mjs; checked against interfaces/signing-fixture.json.
-export const TRANSFER_TYPES = {
-  TransferIntent: [
-    { name: 'owner', type: 'address' },
-    { name: 'agent', type: 'address' },
-    { name: 'token', type: 'address' },
-    { name: 'recipient', type: 'address' },
-    { name: 'amount', type: 'uint256' },
-    { name: 'nonce', type: 'uint256' },
-    { name: 'epoch', type: 'uint256' },
-    { name: 'validAfter', type: 'uint256' },
-    { name: 'deadline', type: 'uint256' },
-  ],
-};
+export { TRANSFER_TYPES };
 
 export class SubmissionError extends Error {
   constructor(public readonly code: string, message: string, public readonly statusCode = 400) {
