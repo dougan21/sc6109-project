@@ -1,0 +1,32 @@
+{
+  "name": "@sc6019/intent-console",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --import tsx --test test/*.test.ts",
+    "demo:evm": "node scripts/demo-evm.mjs",
+    "demo:agent:evm": "node --import tsx scripts/demo-evm.mjs --agent",
+    "test:wallet": "node --import tsx scripts/check-wallet.ts"
+  },
+  "dependencies": {
+    "ethers": "6.17.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.0",
+    "@types/react": "19.1.16",
+    "@types/react-dom": "19.1.9",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vite": "6.4.4"
+  }
+}

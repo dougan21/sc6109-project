@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SC6019 controlled benchmark comparison",
+  "description": "Integration contract only; no experimental values are supplied. All runs must share commit, chain, workload and window kind. The frontend validates those cross-run constraints.",
+  "type": "object",
+  "required": ["schemaVersion", "comparisonId", "runs"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "comparisonId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": [
+          "runId",
+          "mode",
+          "variant",
+          "repetition",
+          "commit",
+          "chainId",
+          "batchSize",
+          "maxWaitMs",
+          "workload",
+          "sampleCount",
+          "unfinished",
+          "window",
+          "throughput",
+          "latencyP50Ms",
+          "latencyP95Ms",
+          "failureRate",
+          "gasPerSuccessfulIntent",
+          "rawResults"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mode": {
+            "const": "evm"
+          },
+          "variant": {
+            "enum": ["baseline", "batch"]
+          },
+          "repetition": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "commit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "chainId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "batchSize": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "maxWaitMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "workload": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Same deterministic workload and initial-state recipe for all compared runs."
+          },
+          "sampleCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Successful latency samples. With no successes, latency and unit success cost must be null, and throughput zero."
+          },
+          "unfinished": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "window": {
+            "type": "object",
+            "required": ["startMs", "endMs", "kind"],
+            "properties": {
+              "startMs": {
+                "type": "integer"
+              },
+              "endMs": {
+                "type": "integer"
+              },
+              "kind": {
+                "enum": ["fixed-window", "workload-drain"]
+              }
+            }
+          },
+          "throughput": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Unique confirmed successes / fixed window or drain seconds; not a later /metrics snapshot."
+          },
+          "latencyP50Ms": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "latencyP95Ms": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "failureRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Terminal FAILED/EXPIRED/REJECTED intents with attemptCount > 0 / intents with attemptCount > 0. Keep API rejection and pending/unknown separate."
+          },
+          "gasPerSuccessfulIntent": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9]+(\\.[0-9]+)?$",
+            "description": "All execution receipt gas, including reverts, divided by successful unique intents; exclude setup costs."
+          },
+          "rawResults": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Repository path or source reference containing receipts, raw timestamps, denominators and environment."
+          }
+        }
+      }
+    }
+  }
+}
