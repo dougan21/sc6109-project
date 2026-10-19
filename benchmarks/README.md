@@ -93,6 +93,60 @@ benchmarks/results/<comparisonId>/
 
 Relayer logs and SQLite databases stay in the ignored `data/bench/<runId>/`.
 
+## Results: batch size 1/5/10/20 (2026-10-19)
+
+Two comparisons, each 4 configurations × 3 repetitions × 100 measured intents, 10 independent
+owners, 1 s blocks, `MAX_WAIT_MS=0`. All 24 runs drained with 0 unfinished, 0 failures, and passed
+every chain reconciliation check. Full per-run values: each directory's `summary.csv`;
+mean ± sample standard deviation: `aggregate.md`. Machine: Apple M3, macOS (Darwin 27.0.0),
+Node 22.23.1, Anvil 1.7.1. Benchmark code commit `ce13b8b`, clean working tree.
+
+**Steady arrivals, 10 intents/s** — [`results/bs-steady10-n100-20261019`](results/bs-steady10-n100-20261019/aggregate.md)
+
+| Batch size | Throughput (intents/s) | E2E p50 (ms) | E2E p95 (ms) | Gas / successful intent | vs baseline | Transactions |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 1.004 ± 0.000 | 44,792 ± 26 | 85,215 ± 26 | 103,412.1 | — | 100 |
+| 5 | 4.826 ± 0.032 | 5,669 ± 13 | 10,121 ± 136 | 81,862.4 | −20.8% | 21 |
+| 10 | 9.232 ± 0.033 | 1,261 ± 13 | 1,732 ± 30 | 79,142.0 | −23.5% | 11 |
+| 20 | 9.267 ± 0.003 | 1,256 ± 0 | 1,709 ± 32 | 78,809.2 | −23.8% | 11 |
+
+**Burst, all 100 submitted at once** — [`results/bs-burst-n100-20261019`](results/bs-burst-n100-20261019/aggregate.md)
+
+| Batch size | Throughput (intents/s) | E2E p50 (ms) | E2E p95 (ms) | Gas / successful intent | vs baseline | Transactions |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 1.004 ± 0.000 | 49,605 ± 57 | 94,496 ± 176 | 103,408.6 | — | 100 |
+| 5 | 5.072 ± 0.062 | 9,647 ± 208 | 18,530 ± 236 | 81,147.1 | −21.5% | 20 |
+| 10 | 10.187 ± 0.088 | 4,702 ± 87 | 9,626 ± 72 | 77,541.3 | −25.0% | 10 |
+| 20 | 21.032 ± 0.064 | 2,638 ± 10 | 4,589 ± 15 | 60,906.3 | −41.1% | 5 |
+
+### Interpretation (observations, with the mechanism we believe explains them)
+
+- **H1 gas — supported, but smaller than the contract-only review.** Savings are 21–25% at batch
+  sizes 5–10, and 41% only at 20 under burst. A's `evidence/gas.csv` shows 54% at size 20 because
+  all 20 transfers there share one owner, agent and recipient. Here intents are round-robin over
+  10 independent owners/recipients: a batch of 10 has one intent per owner, so only the
+  transaction base cost and executor/token access are shared; each owner's balance, allowance,
+  policy and recipient slots are still touched cold. A burst batch of 20 holds two intents per owner,
+  which is where the extra saving comes from. Savings depend on how much state intents share.
+- **H2 throughput — supported, bounded by two limits.** The relayer keeps one transaction pending
+  and waits for its receipt, so baseline is capped at about one intent per 1 s block (1.00/s in every
+  run). Batching raises the cap to roughly batch size per block. Under steady 10/s arrivals,
+  sizes 10 and 20 are indistinguishable: about ten intents queue per block, so a cap of 20 never fills.
+  This measures the configured system, not chain capacity.
+- **Latency.** Both workloads exceed baseline capacity (10/s offered vs 1/s served), so baseline
+  latency is queueing in the backlog: p50 ≈ 45–50 s. Batching removes the backlog; with steady
+  arrivals at size ≥10, p50 is about 1.26 s (≈ one block plus polling). This is **not** a test of H3:
+  the low-load cost of waiting for a fuller batch needs the `--max-wait` study at an arrival rate
+  below baseline capacity.
+- **Variance.** Repetitions agree closely; the largest spread is gas per intent at burst sizes
+  5–10 (≤0.9%). Concurrent burst submissions arrive in a slightly different order each run, so
+  the owner mix inside each batch, and therefore how much storage is shared, likely varies. With `MAX_WAIT_MS=0` a
+  coordinator tick can also claim the first intents of a burst before the rest arrive: an earlier,
+  uncommitted development run observed batches of 1, 20, 20, 20, 20, 19 at size 20. All three
+  repetitions here formed 5 × 20. This sensitivity is a reason to study `--max-wait` explicitly.
+- **H4 failure impact — not tested here.** The workload has 0% invalid intents; failure rate
+  is 0 / 100 attempted in every run.
+
 ## Fairness and limits to state with the results
 
 - Baseline and batch use the same contract entry point (`executeBatch`), signatures, policies,

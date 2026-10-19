@@ -1,0 +1,78 @@
+{
+  "runId": "bs-steady10-n100-20261019-b10-r2",
+  "mode": "evm",
+  "observedAt": 1792382028016,
+  "configuration": {
+    "mode": "evm",
+    "domain": {
+      "name": "AgentIntentExecutor",
+      "version": "1",
+      "chainId": 31337,
+      "verifyingContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    },
+    "relayerAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "coordinator": {
+      "batchSize": 10,
+      "maxWaitMs": 0,
+      "maxAttempts": 3,
+      "rebroadcastAfterMs": 5000,
+      "maxBroadcasts": 3,
+      "maxGasPerBatch": "5000000"
+    },
+    "confirmations": 1,
+    "nodeVersion": "v22.23.1"
+  },
+  "window": {
+    "from": 1792382016827,
+    "to": 1792382028016,
+    "seconds": 11.189,
+    "kind": "cumulative_since_first_acceptance"
+  },
+  "accepted": 100,
+  "apiRejectedUniquePayloads": 0,
+  "states": {
+    "CONFIRMED": 100
+  },
+  "confirmed": 100,
+  "attempted": 100,
+  "failedAfterAttempt": 0,
+  "unfinished": 0,
+  "throughputIntentsPerSecond": 8.93734918223255,
+  "executionFailureRate": 0,
+  "unfinishedRate": 0,
+  "transactionFailureRate": 0,
+  "transactions": {
+    "distinctBroadcast": 11,
+    "withReceipt": 11,
+    "reverted": 0,
+    "unresolved": 0
+  },
+  "endToEndLatencyMs": {
+    "sampleCount": 100,
+    "p50": 1260,
+    "p95": 1704
+  },
+  "queueLatencyMs": {
+    "sampleCount": 100,
+    "p50": 624,
+    "p95": 1085
+  },
+  "afterFirstBroadcastMs": {
+    "sampleCount": 100,
+    "p50": 627,
+    "p95": 664
+  },
+  "gasUsed": "7914124",
+  "executionFeesWei": "7962719992397030",
+  "gasPerSuccessfulIntent": {
+    "numerator": "7914124",
+    "denominator": 100
+  },
+  "notes": [
+    "Mock gas and receipts are simulated, not blockchain measurements.",
+    "API rejection fingerprints are not unique valid intent IDs; no combined rejection percentage is inferred.",
+    "Includes reverted transaction gas; excludes setup/approval costs.",
+    "Latency samples include successful intents only; queue samples include all attempted intents.",
+    "Wall-clock milliseconds; use raw records and controlled windows for formal experiments."
+  ]
+}

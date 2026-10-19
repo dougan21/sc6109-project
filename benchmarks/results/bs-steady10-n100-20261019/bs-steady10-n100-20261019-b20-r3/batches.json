@@ -1,0 +1,488 @@
+[
+  {
+    "batchId": "b3112f34-aa1b-47d6-9f44-212c049dfd7a",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x91eb5020f185e9d1b6d46267a17b0d57a596f4b0b495955655f26f7996278e60",
+      "0xa751936cd1aa6ed5031a3fec703b66ff6c959f1bfff8232942e2a1341604bd35",
+      "0xc178b1ae47ee99407ce5e46b7fb6b92c424aa767ffbd0ceb59cda953716e760c"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x15dcb3308629da7ad64d06f65d256fdd3f83a243e3cb244d682e9920a3b2daee",
+      "nonce": 1
+    },
+    "createdAt": 1792382349998,
+    "submittedAt": 1792382349999,
+    "lastBroadcastAt": 1792382349999,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382350458,
+    "receipt": {
+      "txHash": "0x15dcb3308629da7ad64d06f65d256fdd3f83a243e3cb244d682e9920a3b2daee",
+      "success": true,
+      "intentIds": [
+        "0x91eb5020f185e9d1b6d46267a17b0d57a596f4b0b495955655f26f7996278e60",
+        "0xa751936cd1aa6ed5031a3fec703b66ff6c959f1bfff8232942e2a1341604bd35",
+        "0xc178b1ae47ee99407ce5e46b7fb6b92c424aa767ffbd0ceb59cda953716e760c"
+      ],
+      "blockNumber": 35,
+      "gasUsed": "258534",
+      "effectiveGasPrice": "1011336653"
+    },
+    "error": null
+  },
+  {
+    "batchId": "3cbc1e9f-ee3d-4e58-93d6-061a783b05a5",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0xb200758f69e12a28f3646b7fa13aa9a8e8ce9199f1d1c9fd618340bd67956d2f",
+      "0x37839199c735d2742bdb887160c84209baeb78aa438348390f5cd97ca174f1e0",
+      "0x7e76167c6a40075dda573b110df63b0496d994a5b76120dc039a30bcaf23db5e",
+      "0x7658e5a7a46c0ba0dcb0e8eeae712c17bd20100b0bb5b0faf6cd5d5ea19c852f",
+      "0xaf68ff1210636d325fdf444dbbab539990b9c822d81cf9ecd3c84ca1b49f1842",
+      "0x610fec1140258ec34e0d936e3d91ccb31412f3a2326021b91994c6adcea92737",
+      "0x20f97904194b2e2d652beca4975cee7a231cfbd502b0af0f3be2aa277672f9a3"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0xbca986272d29bd1220a23e98ab93cc35996253bf149a49ef2f7fcd0606c2aa21",
+      "nonce": 2
+    },
+    "createdAt": 1792382350806,
+    "submittedAt": 1792382350807,
+    "lastBroadcastAt": 1792382350807,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382351466,
+    "receipt": {
+      "txHash": "0xbca986272d29bd1220a23e98ab93cc35996253bf149a49ef2f7fcd0606c2aa21",
+      "success": true,
+      "intentIds": [
+        "0xb200758f69e12a28f3646b7fa13aa9a8e8ce9199f1d1c9fd618340bd67956d2f",
+        "0x37839199c735d2742bdb887160c84209baeb78aa438348390f5cd97ca174f1e0",
+        "0x7e76167c6a40075dda573b110df63b0496d994a5b76120dc039a30bcaf23db5e",
+        "0x7658e5a7a46c0ba0dcb0e8eeae712c17bd20100b0bb5b0faf6cd5d5ea19c852f",
+        "0xaf68ff1210636d325fdf444dbbab539990b9c822d81cf9ecd3c84ca1b49f1842",
+        "0x610fec1140258ec34e0d936e3d91ccb31412f3a2326021b91994c6adcea92737",
+        "0x20f97904194b2e2d652beca4975cee7a231cfbd502b0af0f3be2aa277672f9a3"
+      ],
+      "blockNumber": 36,
+      "gasUsed": "566996",
+      "effectiveGasPrice": "1009943996"
+    },
+    "error": null
+  },
+  {
+    "batchId": "2a5a98f7-4ac8-4541-bd37-f2ba488262f5",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x27bb54e0dbd8a6642fa830a2271f7d47fa9da5f83c4122a0d27e29fa574d22f4",
+      "0x20f0d4c4c5717dadda4112cc809dc41f96f7a555ed392f44b47ab0fb1032b0a2",
+      "0x2d3e8c3ccb0a1f5e43000a7fe42fc2a4ff217151957aa3163f208daa889872c8",
+      "0x86fde2b234295ae29c2ab6871194c551538b3b9f8936b8c1d9dcfdbcb5316f50",
+      "0x04459248f8266869ed4f02c78becd25df41bb5f8ce2bb5a5b4a299af402b47f5",
+      "0x65402231997685b5c441109e5f038259cc17170e022c1a7e80110b5720e7b655",
+      "0xac72673780cea401539359d3a960cb27c5f1475e717f1cedd3fbc170518a41a0",
+      "0xb0c1f89af9ab80fd20dd2a4b3310c4daa86046772f4f2212f0b8a4562e60d920",
+      "0xba484fdd4ce02fde7dce08148968b5ffa9e97a71b96d1585609da8bac242d3c2",
+      "0x22b50d2c50863e8f24a32c325ccba862713b9ff45cc70b46dbb5dcc08819c04b"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0xa85dbcd3caba5b488650cc657136b0c15f35eceb84b9f46ad224681756a83abe",
+      "nonce": 3
+    },
+    "createdAt": 1792382351848,
+    "submittedAt": 1792382351849,
+    "lastBroadcastAt": 1792382351849,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382352471,
+    "receipt": {
+      "txHash": "0xa85dbcd3caba5b488650cc657136b0c15f35eceb84b9f46ad224681756a83abe",
+      "success": true,
+      "intentIds": [
+        "0x27bb54e0dbd8a6642fa830a2271f7d47fa9da5f83c4122a0d27e29fa574d22f4",
+        "0x20f0d4c4c5717dadda4112cc809dc41f96f7a555ed392f44b47ab0fb1032b0a2",
+        "0x2d3e8c3ccb0a1f5e43000a7fe42fc2a4ff217151957aa3163f208daa889872c8",
+        "0x86fde2b234295ae29c2ab6871194c551538b3b9f8936b8c1d9dcfdbcb5316f50",
+        "0x04459248f8266869ed4f02c78becd25df41bb5f8ce2bb5a5b4a299af402b47f5",
+        "0x65402231997685b5c441109e5f038259cc17170e022c1a7e80110b5720e7b655",
+        "0xac72673780cea401539359d3a960cb27c5f1475e717f1cedd3fbc170518a41a0",
+        "0xb0c1f89af9ab80fd20dd2a4b3310c4daa86046772f4f2212f0b8a4562e60d920",
+        "0xba484fdd4ce02fde7dce08148968b5ffa9e97a71b96d1585609da8bac242d3c2",
+        "0x22b50d2c50863e8f24a32c325ccba862713b9ff45cc70b46dbb5dcc08819c04b"
+      ],
+      "blockNumber": 37,
+      "gasUsed": "798263",
+      "effectiveGasPrice": "1008747982"
+    },
+    "error": null
+  },
+  {
+    "batchId": "45cf59d9-c769-4202-b489-357482eaa86a",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x6a6991e9a022ca577fb2479fc414b615dcb8c7117e70871d1d6fc59aa43ba5e8",
+      "0x77379b8ac7ec1897c2b7e8b7a19e05434c3c630c09a17f5aebd352606fc7dd71",
+      "0x926ff8fb4afedc6cf27dd79c7749ed3a24621ab267b2bc0890cb386d478f4e47",
+      "0xff2d0a0533962fd0399e1559101e3467c6990948cb3efadbd8153c7181a18a3b",
+      "0x2438ff8e35f78655fb5fa3ae0ac1ec838af3e5d1c6faaa2d61a06e88890c81bc",
+      "0x8245c15c836c45b0d5702fbbba8e73ebdd0514eb14597e380df2e84fab078ac1",
+      "0x02c782eb637fa678c90ddd5f2190d5432439163546796f38ba5d1af7b318714e",
+      "0xc5526b6cbe7d85fcd34c0bf48fe1a0769cadd8865d2d31b0a9d6ad45cd2c23a6",
+      "0xa8fdcd16af58c7ae3488270363f2a36562ad53ca299b07c3139d8a5ed72640c8",
+      "0xaf97af1be8c338cbefc735455afe05afbc58ec8894029a825db3e8897bba5d05"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x2b64f1da4c8043b8ddb17ea8425c4e8e324557c759507434e37909514cab127f",
+      "nonce": 4
+    },
+    "createdAt": 1792382352848,
+    "submittedAt": 1792382352848,
+    "lastBroadcastAt": 1792382352848,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382353474,
+    "receipt": {
+      "txHash": "0x2b64f1da4c8043b8ddb17ea8425c4e8e324557c759507434e37909514cab127f",
+      "success": true,
+      "intentIds": [
+        "0x6a6991e9a022ca577fb2479fc414b615dcb8c7117e70871d1d6fc59aa43ba5e8",
+        "0x77379b8ac7ec1897c2b7e8b7a19e05434c3c630c09a17f5aebd352606fc7dd71",
+        "0x926ff8fb4afedc6cf27dd79c7749ed3a24621ab267b2bc0890cb386d478f4e47",
+        "0xff2d0a0533962fd0399e1559101e3467c6990948cb3efadbd8153c7181a18a3b",
+        "0x2438ff8e35f78655fb5fa3ae0ac1ec838af3e5d1c6faaa2d61a06e88890c81bc",
+        "0x8245c15c836c45b0d5702fbbba8e73ebdd0514eb14597e380df2e84fab078ac1",
+        "0x02c782eb637fa678c90ddd5f2190d5432439163546796f38ba5d1af7b318714e",
+        "0xc5526b6cbe7d85fcd34c0bf48fe1a0769cadd8865d2d31b0a9d6ad45cd2c23a6",
+        "0xa8fdcd16af58c7ae3488270363f2a36562ad53ca299b07c3139d8a5ed72640c8",
+        "0xaf97af1be8c338cbefc735455afe05afbc58ec8894029a825db3e8897bba5d05"
+      ],
+      "blockNumber": 38,
+      "gasUsed": "798287",
+      "effectiveGasPrice": "1007712678"
+    },
+    "error": null
+  },
+  {
+    "batchId": "dab5bcf5-541b-4567-8b9c-a13c5b81dd49",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x17cb5aa38c62fe454b5f672423564869fed9a2187682a8c862deacd5b623333f",
+      "0x2128e99baa1bfaa5991683933ba67dab079fb23ceb055283ef7463f782039307",
+      "0xaf50170625975759adfeed0e7286683ebd0266a9ba1e84d375a94dda3dac5986",
+      "0x715da0992a8c6ee575e1935533ca569a36328221959bcba6e5a96649f2fb879f",
+      "0xf4c417e7270d996f8405e50853a37152e57bb5b4ec525cceab3ec952e981e074",
+      "0x0d5a1e322a0712e571913e13b022806e5583b3ab301f1b9a040df80c0223ea63",
+      "0x6daa5a980799d7d5eb1f89a6a5d87378d1997124cdc0463060b3124eaafa758b",
+      "0x73609d99e40512d5965d0810eb4465a96a6f14ecefc3d67b6c71a72aa990d69c",
+      "0xcc8e00d4a01c776b9ec56e5211322f0e243eb5c4440d1e13d5016ebc29253776",
+      "0x515f0d277e9d4b6e349e4c372717099dbe07b496e59b04deff98001102d0a2be"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x234513dc6b58e76d7f440bfa589494322635cb1fc1e1b04f5d1cf8c44c0983fa",
+      "nonce": 5
+    },
+    "createdAt": 1792382353851,
+    "submittedAt": 1792382353852,
+    "lastBroadcastAt": 1792382353852,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382354490,
+    "receipt": {
+      "txHash": "0x234513dc6b58e76d7f440bfa589494322635cb1fc1e1b04f5d1cf8c44c0983fa",
+      "success": true,
+      "intentIds": [
+        "0x17cb5aa38c62fe454b5f672423564869fed9a2187682a8c862deacd5b623333f",
+        "0x2128e99baa1bfaa5991683933ba67dab079fb23ceb055283ef7463f782039307",
+        "0xaf50170625975759adfeed0e7286683ebd0266a9ba1e84d375a94dda3dac5986",
+        "0x715da0992a8c6ee575e1935533ca569a36328221959bcba6e5a96649f2fb879f",
+        "0xf4c417e7270d996f8405e50853a37152e57bb5b4ec525cceab3ec952e981e074",
+        "0x0d5a1e322a0712e571913e13b022806e5583b3ab301f1b9a040df80c0223ea63",
+        "0x6daa5a980799d7d5eb1f89a6a5d87378d1997124cdc0463060b3124eaafa758b",
+        "0x73609d99e40512d5965d0810eb4465a96a6f14ecefc3d67b6c71a72aa990d69c",
+        "0xcc8e00d4a01c776b9ec56e5211322f0e243eb5c4440d1e13d5016ebc29253776",
+        "0x515f0d277e9d4b6e349e4c372717099dbe07b496e59b04deff98001102d0a2be"
+      ],
+      "blockNumber": 39,
+      "gasUsed": "798275",
+      "effectiveGasPrice": "1006799902"
+    },
+    "error": null
+  },
+  {
+    "batchId": "ed586ca6-30aa-484f-9351-4ab6ebf06e80",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x67513fde5719b3aaa747596241e8a6095c097050307d79acbd65623f8c463a88",
+      "0x5cf8df3353c71fff4894d89b3fdadaefbb119930c39085e8dcd7e4b97d60a1d2",
+      "0x2c2de43f28196791cbc9811bd5cc960ecadf60ffbb45c42c84dcbafbf9abe3e6",
+      "0xf2f2ef42a36c3e782f43bc2a892247c2e73ea42d0ec1adb4d7f7c6fb6021da25",
+      "0x601f16dc94c8e74a6f7b1ff5c3207544d0f850f2f4db5a9af8c1e78f8581f3e5",
+      "0xc77156a19544d7642e1266ff9c6d5e3fbb3da874eae184dc7e42a7c47b68fa2a",
+      "0x794040f82c128d2119c9671872d7c28712b52cfc7915d3254d1e8209e14947f1",
+      "0x6fade06a43425bed1fd7aa6422324735dba3f6078a54e732817613272b7a9e1d",
+      "0x6178386b6a84a7d8d48fcc2a219f3b50deaa689a9f8233f284fc51ede8c422d8",
+      "0xaffca7ddbc27c15e8850b1538d0bcdadb0cef881fd5c19de53b7f7eb5c2bfa57",
+      "0x4394c1b4726083b238e7c3802b5c4e4f8aa95275934782b5ee96d7cc240a74c2"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x721cf8317d122b6223a9b524972c37a859f81a7eaa9500289bea144b0ebd8a41",
+      "nonce": 6
+    },
+    "createdAt": 1792382354880,
+    "submittedAt": 1792382354880,
+    "lastBroadcastAt": 1792382354880,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382355496,
+    "receipt": {
+      "txHash": "0x721cf8317d122b6223a9b524972c37a859f81a7eaa9500289bea144b0ebd8a41",
+      "success": true,
+      "intentIds": [
+        "0x67513fde5719b3aaa747596241e8a6095c097050307d79acbd65623f8c463a88",
+        "0x5cf8df3353c71fff4894d89b3fdadaefbb119930c39085e8dcd7e4b97d60a1d2",
+        "0x2c2de43f28196791cbc9811bd5cc960ecadf60ffbb45c42c84dcbafbf9abe3e6",
+        "0xf2f2ef42a36c3e782f43bc2a892247c2e73ea42d0ec1adb4d7f7c6fb6021da25",
+        "0x601f16dc94c8e74a6f7b1ff5c3207544d0f850f2f4db5a9af8c1e78f8581f3e5",
+        "0xc77156a19544d7642e1266ff9c6d5e3fbb3da874eae184dc7e42a7c47b68fa2a",
+        "0x794040f82c128d2119c9671872d7c28712b52cfc7915d3254d1e8209e14947f1",
+        "0x6fade06a43425bed1fd7aa6422324735dba3f6078a54e732817613272b7a9e1d",
+        "0x6178386b6a84a7d8d48fcc2a219f3b50deaa689a9f8233f284fc51ede8c422d8",
+        "0xaffca7ddbc27c15e8850b1538d0bcdadb0cef881fd5c19de53b7f7eb5c2bfa57",
+        "0x4394c1b4726083b238e7c3802b5c4e4f8aa95275934782b5ee96d7cc240a74c2"
+      ],
+      "blockNumber": 40,
+      "gasUsed": "842166",
+      "effectiveGasPrice": "1005995150"
+    },
+    "error": null
+  },
+  {
+    "batchId": "0a8a1038-4d1b-4c68-92c5-9de3ac5085e7",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x919a6a48c02f5c587bd796086b1a4d877650e976eafe99c9a170d73d317ead4e",
+      "0xef51107a53e493642e882e7a3c31d1be711a9280dc7ca5e1a8ac1928e4cac849",
+      "0x587e0ad53508f4e4d2da145a3e17735686f3187857a53b53144d5783e51f561a",
+      "0x25a937eb01168ae5073a1fd27f44c5bad9b1945a735d723567e2abf1715e6866",
+      "0x4d29c2f90887ea3442df5be95969d5ff57ac9b076bf94fb983ecf3d1a792e117",
+      "0x894bc8957b28308f82a89bd6365ab7d05cca20ba22e45c4724614d2178b9505e",
+      "0x95bb654c57a8ca1e317e44405d88d8a7bb23e392026bb495778c6c796b8370ba",
+      "0xffc2e89f95bcd229f49a371401d94c9ac40ebfb86c29cdecb337261f37bc6449",
+      "0xe94fd6cd0aaf64a21f20077a6d996970507e9a465a09d67f961808506e49ca93",
+      "0x10fce43b33bcd6451170d5531d5fa6f9708217263a8d67f9f74694cc0d395454"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0xbec3f782823cc874f7dd572bcc55b2c59e2786a14b9378fad7d35d9565e904c6",
+      "nonce": 7
+    },
+    "createdAt": 1792382355871,
+    "submittedAt": 1792382355872,
+    "lastBroadcastAt": 1792382355872,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382356497,
+    "receipt": {
+      "txHash": "0xbec3f782823cc874f7dd572bcc55b2c59e2786a14b9378fad7d35d9565e904c6",
+      "success": true,
+      "intentIds": [
+        "0x919a6a48c02f5c587bd796086b1a4d877650e976eafe99c9a170d73d317ead4e",
+        "0xef51107a53e493642e882e7a3c31d1be711a9280dc7ca5e1a8ac1928e4cac849",
+        "0x587e0ad53508f4e4d2da145a3e17735686f3187857a53b53144d5783e51f561a",
+        "0x25a937eb01168ae5073a1fd27f44c5bad9b1945a735d723567e2abf1715e6866",
+        "0x4d29c2f90887ea3442df5be95969d5ff57ac9b076bf94fb983ecf3d1a792e117",
+        "0x894bc8957b28308f82a89bd6365ab7d05cca20ba22e45c4724614d2178b9505e",
+        "0x95bb654c57a8ca1e317e44405d88d8a7bb23e392026bb495778c6c796b8370ba",
+        "0xffc2e89f95bcd229f49a371401d94c9ac40ebfb86c29cdecb337261f37bc6449",
+        "0xe94fd6cd0aaf64a21f20077a6d996970507e9a465a09d67f961808506e49ca93",
+        "0x10fce43b33bcd6451170d5531d5fa6f9708217263a8d67f9f74694cc0d395454"
+      ],
+      "blockNumber": 41,
+      "gasUsed": "798299",
+      "effectiveGasPrice": "1005287831"
+    },
+    "error": null
+  },
+  {
+    "batchId": "58be4c66-04f5-4be8-92fb-11396759e36c",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x002e837504797e22b3e81b1c9553127a080c8d0d1218856b3020f08a64be54cd",
+      "0x3781646702d3530a796e1d50fbc0165225d8f80e9085175a0bf77d3c134d4858",
+      "0x37621b638898a228f9a3cb38265748acf551c69f09606e20f9615982ddf33e5c",
+      "0x2cf4a76dcb214727e8af0244b132741a5f1748aa3565bcff40ab32dc75e35062",
+      "0x4259f812432607687fa556c09e3fa369c1974da90c074345b3763de9210467d7",
+      "0xc8c0aac1ac7990038f99b238e498a65f714506a0cceb18611fcc1ce8d0f9527e",
+      "0xca353faf261b08b0fc7768063032b67f7b1a89389c3ed51b17863a78db7e2555",
+      "0x0ff0a75b20a109c30879cddcb04969271b1a3c8c24d9d1029352d0bc0dddfe0a",
+      "0x5a651620af55a85be0596d7167e9de1670935c9cd56dbde49711999ce070fc65",
+      "0x55f16f9ff40d3b3bfa1c00d88b564d5bdc8f841d9afe7f24bde17e2137e51f16"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x1dc2447320378583c09660ce9d574361ca9121347cfb1f0052cffac1ee814da0",
+      "nonce": 8
+    },
+    "createdAt": 1792382356871,
+    "submittedAt": 1792382356871,
+    "lastBroadcastAt": 1792382356871,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382357501,
+    "receipt": {
+      "txHash": "0x1dc2447320378583c09660ce9d574361ca9121347cfb1f0052cffac1ee814da0",
+      "success": true,
+      "intentIds": [
+        "0x002e837504797e22b3e81b1c9553127a080c8d0d1218856b3020f08a64be54cd",
+        "0x3781646702d3530a796e1d50fbc0165225d8f80e9085175a0bf77d3c134d4858",
+        "0x37621b638898a228f9a3cb38265748acf551c69f09606e20f9615982ddf33e5c",
+        "0x2cf4a76dcb214727e8af0244b132741a5f1748aa3565bcff40ab32dc75e35062",
+        "0x4259f812432607687fa556c09e3fa369c1974da90c074345b3763de9210467d7",
+        "0xc8c0aac1ac7990038f99b238e498a65f714506a0cceb18611fcc1ce8d0f9527e",
+        "0xca353faf261b08b0fc7768063032b67f7b1a89389c3ed51b17863a78db7e2555",
+        "0x0ff0a75b20a109c30879cddcb04969271b1a3c8c24d9d1029352d0bc0dddfe0a",
+        "0x5a651620af55a85be0596d7167e9de1670935c9cd56dbde49711999ce070fc65",
+        "0x55f16f9ff40d3b3bfa1c00d88b564d5bdc8f841d9afe7f24bde17e2137e51f16"
+      ],
+      "blockNumber": 42,
+      "gasUsed": "798299",
+      "effectiveGasPrice": "1004662030"
+    },
+    "error": null
+  },
+  {
+    "batchId": "e75f0a4e-67fa-45a8-9727-938a337ec8d6",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x1e7d3e6835c952574ba58aca5f9abccc651b932769cec0d3eb058cc596126bf6",
+      "0x2f88dbaf9bbc09f34990ceb78eabd9dad2a8d4624c09aad3689a6f05962074e6",
+      "0x04ce7e1013c31b2d5a50d00c24f7d039189b96b9ee8414d4feef29cb20c5ea30",
+      "0x0c542cd00b54c8968af7aa61a288949c1472c83bbb56eac7a5f26b7002746055",
+      "0xf20bf37e4047b9066216a7f45b81bb7535ddfdaa30af43229b2b3d16d542ecdb",
+      "0xe547af478cb4fc94b6efd177aba525c2ff8c10306aa332e31574e607b8e9e824",
+      "0xa92652eafae09538995c2383c893e0ff98b31ede6980b9fb6f84455b8906f850",
+      "0x76204a0a5ab9a09eb79188da6dba2ed3271936b05e2d587611e4fc966502db8e",
+      "0x6733738cb9c7e9dc54f0359b2cce827dbd9e8b120901722a03072fbf688a5531",
+      "0x0229a64fcddb454d0679df8af5438fd4f88f5de5976f7b3cb5b20aefdb0ca0e8"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x6b539d2c109e38d05101eff6a222598018a392192b6d4015c2d58629eb7c238b",
+      "nonce": 9
+    },
+    "createdAt": 1792382357874,
+    "submittedAt": 1792382357875,
+    "lastBroadcastAt": 1792382357875,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382358504,
+    "receipt": {
+      "txHash": "0x6b539d2c109e38d05101eff6a222598018a392192b6d4015c2d58629eb7c238b",
+      "success": true,
+      "intentIds": [
+        "0x1e7d3e6835c952574ba58aca5f9abccc651b932769cec0d3eb058cc596126bf6",
+        "0x2f88dbaf9bbc09f34990ceb78eabd9dad2a8d4624c09aad3689a6f05962074e6",
+        "0x04ce7e1013c31b2d5a50d00c24f7d039189b96b9ee8414d4feef29cb20c5ea30",
+        "0x0c542cd00b54c8968af7aa61a288949c1472c83bbb56eac7a5f26b7002746055",
+        "0xf20bf37e4047b9066216a7f45b81bb7535ddfdaa30af43229b2b3d16d542ecdb",
+        "0xe547af478cb4fc94b6efd177aba525c2ff8c10306aa332e31574e607b8e9e824",
+        "0xa92652eafae09538995c2383c893e0ff98b31ede6980b9fb6f84455b8906f850",
+        "0x76204a0a5ab9a09eb79188da6dba2ed3271936b05e2d587611e4fc966502db8e",
+        "0x6733738cb9c7e9dc54f0359b2cce827dbd9e8b120901722a03072fbf688a5531",
+        "0x0229a64fcddb454d0679df8af5438fd4f88f5de5976f7b3cb5b20aefdb0ca0e8"
+      ],
+      "blockNumber": 43,
+      "gasUsed": "798275",
+      "effectiveGasPrice": "1004110291"
+    },
+    "error": null
+  },
+  {
+    "batchId": "3501b0d8-c35f-40b3-8b42-8c059fe62166",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0xf77da1ba179dfbd647c8d5bcfacda7bd94c2e00e3bf62998b0eb8526ec7cd624",
+      "0xe6a134b4b50880b06e0c747d00a8f1cec4fe2a9c1c275d64f71944fa0049c4b2",
+      "0x255e2fd267775e19ea7f5f3c65cc767dc4ff5e1d3b3df4776c9ddf64811bc0ae",
+      "0x5b5b5e337eda54ca30608f95547218312c58d4a1c908c8d7f92c14a61bfdc53b",
+      "0xce7809e995fac3fbfeee24abca94ba0e33ffcc288d9af396d32541ad8335fbc4",
+      "0x6f8e257561c2ff4d7da78fe31936b864a8dbff6d18a65ae1d1b41f3fab78b983",
+      "0x71880fa53e60d02765e0d50b87399d051f8d0077381f28aa136313243f1c09f8",
+      "0xd2ad3f5885901cac6b73df1e7f585d8b3abce1577bd41db4c6e879758a4a9e69",
+      "0xf43b21aafc4f678c935b65a46d6cfa359ef71d3da3ff5cb2e6444c399d7b3f73",
+      "0x46211a1f5e31f179f19f994bedada60b8794c65ad3a23e2e648f9be6f891b45b"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0xa4280299f9245be889cb1a871fd435a9ee6698becd642cea1b07273ae886b737",
+      "nonce": 10
+    },
+    "createdAt": 1792382358881,
+    "submittedAt": 1792382358881,
+    "lastBroadcastAt": 1792382358881,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382359506,
+    "receipt": {
+      "txHash": "0xa4280299f9245be889cb1a871fd435a9ee6698becd642cea1b07273ae886b737",
+      "success": true,
+      "intentIds": [
+        "0xf77da1ba179dfbd647c8d5bcfacda7bd94c2e00e3bf62998b0eb8526ec7cd624",
+        "0xe6a134b4b50880b06e0c747d00a8f1cec4fe2a9c1c275d64f71944fa0049c4b2",
+        "0x255e2fd267775e19ea7f5f3c65cc767dc4ff5e1d3b3df4776c9ddf64811bc0ae",
+        "0x5b5b5e337eda54ca30608f95547218312c58d4a1c908c8d7f92c14a61bfdc53b",
+        "0xce7809e995fac3fbfeee24abca94ba0e33ffcc288d9af396d32541ad8335fbc4",
+        "0x6f8e257561c2ff4d7da78fe31936b864a8dbff6d18a65ae1d1b41f3fab78b983",
+        "0x71880fa53e60d02765e0d50b87399d051f8d0077381f28aa136313243f1c09f8",
+        "0xd2ad3f5885901cac6b73df1e7f585d8b3abce1577bd41db4c6e879758a4a9e69",
+        "0xf43b21aafc4f678c935b65a46d6cfa359ef71d3da3ff5cb2e6444c399d7b3f73",
+        "0x46211a1f5e31f179f19f994bedada60b8794c65ad3a23e2e648f9be6f891b45b"
+      ],
+      "blockNumber": 44,
+      "gasUsed": "788651",
+      "effectiveGasPrice": "1003623848"
+    },
+    "error": null
+  },
+  {
+    "batchId": "51e36b6e-f9a2-4a0c-a899-db55d7921616",
+    "runId": "bs-steady10-n100-20261019-b20-r3",
+    "intentIds": [
+      "0x61e80a29710d90f5f346d5ab4c21058b0b0ac86387be7f5c534f50f4eda6276c",
+      "0x69a1bf8185cdde37d8771b52e3cc3cf905c520c6b0725fde11408493018cde25",
+      "0x7275de64208b404c30a6d12007e660abd4058b7b87ac1a3838b56de511967d20",
+      "0x388e4c853adbaccedb28c7d7620ee1a97bed1c0a12b4368fd928ff6b3750b0db",
+      "0xd466a289677e77b6c1bf03cb087d6ce72fa40bf87309266b0a656c6e15ebfba2",
+      "0x6865dd61f57a75142ba86ce73acfb74009e01b184239137073f885bcab09d256",
+      "0x5f9d625ee484ebba616c6b8471308987a1169d7c00e32592edad8cfc22b8c494",
+      "0xccb23b161d8fec524f839616a02a0797b8e876bfd12d5de5af8381d8039f1d8e",
+      "0x396d2b08a6162d0bfc3d49b5d88b2fe8da98502669d4b2f8e3008299274787de"
+    ],
+    "state": "CONFIRMED",
+    "transaction": {
+      "txHash": "0x592aefabe132b4881be1cd991e9f41c7213ee6f4937b8a2d11724203d7219235",
+      "nonce": 11
+    },
+    "createdAt": 1792382359867,
+    "submittedAt": 1792382359868,
+    "lastBroadcastAt": 1792382359868,
+    "broadcastCount": 1,
+    "resolvedAt": 1792382360509,
+    "receipt": {
+      "txHash": "0x592aefabe132b4881be1cd991e9f41c7213ee6f4937b8a2d11724203d7219235",
+      "success": true,
+      "intentIds": [
+        "0x61e80a29710d90f5f346d5ab4c21058b0b0ac86387be7f5c534f50f4eda6276c",
+        "0x69a1bf8185cdde37d8771b52e3cc3cf905c520c6b0725fde11408493018cde25",
+        "0x7275de64208b404c30a6d12007e660abd4058b7b87ac1a3838b56de511967d20",
+        "0x388e4c853adbaccedb28c7d7620ee1a97bed1c0a12b4368fd928ff6b3750b0db",
+        "0xd466a289677e77b6c1bf03cb087d6ce72fa40bf87309266b0a656c6e15ebfba2",
+        "0x6865dd61f57a75142ba86ce73acfb74009e01b184239137073f885bcab09d256",
+        "0x5f9d625ee484ebba616c6b8471308987a1169d7c00e32592edad8cfc22b8c494",
+        "0xccb23b161d8fec524f839616a02a0797b8e876bfd12d5de5af8381d8039f1d8e",
+        "0x396d2b08a6162d0bfc3d49b5d88b2fe8da98502669d4b2f8e3008299274787de"
+      ],
+      "blockNumber": 45,
+      "gasUsed": "634798",
+      "effectiveGasPrice": "1003194684"
+    },
+    "error": null
+  }
+]
