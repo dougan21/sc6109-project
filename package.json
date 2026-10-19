@@ -24,7 +24,10 @@
     "export": "node scripts/export.mjs",
     "check:interfaces": "node scripts/export.mjs --check",
     "gas": "node scripts/gas.mjs",
-    "verify:local": "node scripts/verify-local.mjs"
+    "verify:local": "node scripts/verify-local.mjs",
+    "bench": "node --disable-warning=ExperimentalWarning --import tsx benchmarks/run.ts",
+    "bench:summarize": "node --import tsx benchmarks/summarize.ts",
+    "test:bench": "node --import tsx --test benchmarks/test/*.test.ts"
   },
   "dependencies": {
     "ethers": "6.17.0",
