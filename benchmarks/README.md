@@ -119,33 +119,48 @@ Node 22.23.1, Anvil 1.7.1. Benchmark code commit `ce13b8b`, clean working tree.
 | 10 | 10.187 ± 0.088 | 4,702 ± 87 | 9,626 ± 72 | 77,541.3 | −25.0% | 10 |
 | 20 | 21.032 ± 0.064 | 2,638 ± 10 | 4,589 ± 15 | 60,906.3 | −41.1% | 5 |
 
-### Interpretation (observations, with the mechanism we believe explains them)
+### Observations (measured in these runs)
 
-- **H1 gas — supported, but smaller than the contract-only review.** Savings are 21–25% at batch
-  sizes 5–10, and 41% only at 20 under burst. A's `evidence/gas.csv` shows 54% at size 20 because
-  all 20 transfers there share one owner, agent and recipient. Here intents are round-robin over
-  10 independent owners/recipients: a batch of 10 has one intent per owner, so only the
-  transaction base cost and executor/token access are shared; each owner's balance, allowance,
-  policy and recipient slots are still touched cold. A burst batch of 20 holds two intents per owner,
-  which is where the extra saving comes from. Savings depend on how much state intents share.
-- **H2 throughput — supported, bounded by two limits.** The relayer keeps one transaction pending
-  and waits for its receipt, so baseline is capped at about one intent per 1 s block (1.00/s in every
-  run). Batching raises the cap to roughly batch size per block. Under steady 10/s arrivals,
-  sizes 10 and 20 are indistinguishable: about ten intents queue per block, so a cap of 20 never fills.
-  This measures the configured system, not chain capacity.
-- **Latency.** Both workloads exceed baseline capacity (10/s offered vs 1/s served), so baseline
-  latency is queueing in the backlog: p50 ≈ 45–50 s. Batching removes the backlog; with steady
-  arrivals at size ≥10, p50 is about 1.26 s (≈ one block plus polling). This is **not** a test of H3:
-  the low-load cost of waiting for a fuller batch needs the `--max-wait` study at an arrival rate
-  below baseline capacity.
-- **Variance.** Repetitions agree closely; the largest spread is gas per intent at burst sizes
-  5–10 (≤0.9%). Concurrent burst submissions arrive in a slightly different order each run, so
-  the owner mix inside each batch, and therefore how much storage is shared, likely varies. With `MAX_WAIT_MS=0` a
-  coordinator tick can also claim the first intents of a burst before the rest arrive: an earlier,
-  uncommitted development run observed batches of 1, 20, 20, 20, 20, 19 at size 20. All three
-  repetitions here formed 5 × 20. This sensitivity is a reason to study `--max-wait` explicitly.
-- **H4 failure impact — not tested here.** The workload has 0% invalid intents; failure rate
-  is 0 / 100 attempted in every run.
+- **Gas (H1).** Gas per successful intent fell by 20.8%, 23.5% and 23.8% at sizes 5, 10 and 20 under
+  steady arrivals, and by 21.5%, 25.0% and 41.1% under burst. Across repetitions, steady runs agreed
+  within 0.01%. Burst runs spread by up to 1.7% of the mean, at size 10.
+- **Throughput (H2).** The baseline confirmed 1.00 intents/s in all six runs, one transaction per
+  intent. With batching, throughput rose to about the batch size per second under burst (5.1, 10.2,
+  21.0). Under steady 10/s arrivals it reached 4.8 at size 5 and about 9.2 at both 10 and 20. Sizes
+  10 and 20 each used 11 transactions, about 9.1 intents per transaction.
+- **Latency.** Baseline end-to-end p50 was 44.8 s (steady) and 49.6 s (burst). With steady arrivals,
+  p50 was 5.7 s at size 5 and about 1.26 s at sizes 10 and 20. Under burst it was 9.6, 4.7 and 2.6 s
+  at sizes 5, 10 and 20.
+- **Failures.** Zero of 100 attempted intents failed in every run. No transaction reverted, and no
+  intent was unfinished.
+- **Variance.** All three burst repetitions at size 20 formed exactly 5 × 20. An earlier, uncommitted
+  development run on Node 26 observed one repetition split as 1, 20, 20, 20, 20, 19 (see
+  `docs/e-development-log.md`). That run is not part of these results.
+
+### Explanations (reasoned from the configuration, not measured separately)
+
+- **Throughput ceiling.** The relayer keeps one transaction pending and waits for its receipt, so
+  each 1 s block confirms at most one batch. That caps the baseline near one intent per second
+  and a batch at about its size per second. Under steady 10/s arrivals about ten intents queue per
+  block, so a cap of 20 cannot fill. This would make sizes 10 and 20 equivalent.
+- **Baseline latency.** Both workloads offer more than the baseline can serve (10/s or a burst,
+  against 1/s), so most of its latency is time spent in the backlog, not block time.
+- **Smaller gas savings than `evidence/gas.csv` (54% at size 20).** That review uses one owner,
+  agent and recipient for all intents. Here intents rotate over ten independent owners, so a batch
+  likely shares only the transaction base cost and executor/token access, while each owner's
+  balance, allowance, policy and recipient storage is still touched cold. Burst batches of 20
+  probably hold about two intents per owner, which would explain the larger saving at that size.
+  **Hypothesis**, not yet tested; a single-owner run (`--owners 1`) would test it.
+- **Burst variance.** With `MAX_WAIT_MS=0`, a coordinator tick can claim the first intents of a burst
+  before the rest arrive. Concurrent submissions also arrive in a slightly different order each run,
+  which changes the owner mix per batch.
+
+### Not tested by these runs
+
+- H3, the latency cost of waiting for a fuller batch at low load, needs `--max-wait` runs at an
+  arrival rate below baseline capacity.
+- H4, the impact of invalid intents in atomic batches, needs a fault mix; this workload is 0% invalid.
+- Shared-budget owners, restart recovery under load, and 500- or 1000-intent runs.
 
 ## Fairness and limits to state with the results
 
@@ -160,6 +175,10 @@ Node 22.23.1, Anvil 1.7.1. Benchmark code commit `ce13b8b`, clean working tree.
 - Local Anvil, one confirmation, one machine; no public-chain finality, congestion or fee market.
 - The workload is valid transfers only (0% fault proportion). Independent owners and recipients;
   shared-budget and invalid-mix workloads are not part of this comparison.
-- `commit` in the summary is `git describe --always --dirty`. A `-dirty` suffix means the
-  benchmark code was not yet committed; `run.json` also records a SHA-256 of `benchmarks/*.ts`.
-  Commit first and rerun for final submission evidence.
+- `commit` in the summary is `git describe --always --dirty` of the benchmark code. A `-dirty`
+  suffix means it was not committed; files under `benchmarks/results/` do not count. `run.json` also
+  records a SHA-256 of `benchmarks/*.ts`. Commit before formal runs.
+
+Development record and checks: [`docs/e-development-log.md`](../docs/e-development-log.md). AI use:
+[`docs/ai-usage-log.md`](../docs/ai-usage-log.md). Notes for the other members:
+[`docs/e-handoff.md`](../docs/e-handoff.md).

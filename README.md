@@ -63,6 +63,12 @@ Member C's signer and scheduled transfer agent are in [`sdk/`](sdk/README.md). T
 
 The mock demonstration does not move tokens. Start `npm run dev`, then in another terminal run `npm run demo:agent`. It uses an explicit static policy because mock mode does not expose owner authorization. Stopping the agent does not revoke a signature that was already created.
 
+## Performance experiments
+
+Member E's controlled baseline/batch comparison is in [`benchmarks/`](benchmarks/README.md). After `npm run build`, `npm run bench` runs batch sizes 1, 5, 10 and 20 three times each against real EVM execution. Each run starts its own Anvil chain on port 18645 and relayer on port 13145, so no other service needs to be running. A run is kept only if its receipts, events, balances, `spent` and consumed nonces reconcile on-chain. `npm run test:bench` checks the metric calculations.
+
+Results are in `benchmarks/results/<comparisonId>/`. Import `summary.json` on the frontend's Performance page. The protocol and metric definitions are decision D-012. The mock relayer demo and the archived `evidence/gas.csv` review are not part of this comparison.
+
 ## Local configuration
 
 The tracked `.env.example` contains safe defaults. Copy it once to `.env`; the scripts
