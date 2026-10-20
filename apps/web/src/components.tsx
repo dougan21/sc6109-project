@@ -1,5 +1,129 @@
-import type { ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import { createPortal } from "react-dom";
 import { short } from "./lib/format";
+export function Help({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  const id = useId();
+  const trigger = useRef<HTMLButtonElement>(null);
+  const bubble = useRef<HTMLDivElement>(null);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [position, setPosition] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  }>();
+  const [pinned, setPinned] = useState(false);
+  function show() {
+    clearTimeout(leaveTimer.current);
+    const rect = trigger.current?.getBoundingClientRect();
+    if (!rect) return;
+    const width = Math.min(300, window.innerWidth - 32);
+    setPosition({
+      top: rect.bottom + 8,
+      left: Math.max(16, Math.min(rect.left, window.innerWidth - width - 16)),
+      width,
+    });
+  }
+  function close() {
+    clearTimeout(leaveTimer.current);
+    setPosition(undefined);
+    setPinned(false);
+  }
+  function leave() {
+    if (!pinned && document.activeElement !== trigger.current)
+      leaveTimer.current = setTimeout(close, 150);
+  }
+  useEffect(() => () => clearTimeout(leaveTimer.current), []);
+  useLayoutEffect(() => {
+    if (!position || !bubble.current) return;
+    const height = bubble.current.getBoundingClientRect().height;
+    if (position.top + height > window.innerHeight - 16) {
+      const top = Math.max(
+        16,
+        (trigger.current?.getBoundingClientRect().top ?? window.innerHeight) -
+          height -
+          8,
+      );
+      if (top !== position.top) setPosition({ ...position, top });
+    }
+  }, [position]);
+  useEffect(() => {
+    if (!position) return;
+    const dismiss = (event: Event) => {
+      if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
+        return;
+      if (
+        event.type === "pointerdown" &&
+        (trigger.current?.contains(event.target as Node) ||
+          document.getElementById(id)?.contains(event.target as Node))
+      )
+        return;
+      close();
+    };
+    document.addEventListener("keydown", dismiss);
+    document.addEventListener("pointerdown", dismiss);
+    window.addEventListener("resize", dismiss);
+    window.addEventListener("scroll", dismiss, true);
+    return () => {
+      document.removeEventListener("keydown", dismiss);
+      document.removeEventListener("pointerdown", dismiss);
+      window.removeEventListener("resize", dismiss);
+      window.removeEventListener("scroll", dismiss, true);
+    };
+  }, [position, id]);
+  return (
+    <>
+      <button
+        type="button"
+        ref={trigger}
+        className="help-trigger"
+        aria-label={label}
+        aria-describedby={position ? id : undefined}
+        aria-expanded={!!position}
+        onMouseEnter={show}
+        onMouseLeave={leave}
+        onFocus={show}
+        onBlur={close}
+        onClick={() => {
+          if (pinned) close();
+          else {
+            show();
+            setPinned(true);
+          }
+        }}
+      >
+        <span aria-hidden="true">?</span>
+      </button>
+      {position &&
+        createPortal(
+          <div
+            ref={bubble}
+            id={id}
+            role="tooltip"
+            className="help-popover"
+            style={position}
+            onMouseEnter={() => clearTimeout(leaveTimer.current)}
+            onMouseLeave={leave}
+          >
+            {children}
+          </div>,
+          document.body,
+        )}
+    </>
+  );
+}
 export function Icon({ name, size = 20 }: { name: string; size?: number }) {
   const paths: Record<string, ReactNode> = {
     agents: (
@@ -144,27 +268,34 @@ export function Stat({
   label,
   value,
   detail,
+  help,
 }: {
   label: string;
   value: ReactNode;
-  detail: string;
+  detail?: string;
+  help?: string;
 }) {
   return (
     <div className="stat">
-      <span>{label}</span>
+      <span className="stat-label">
+        {label}
+        {help && <Help label={`About ${label}`}>{help}</Help>}
+      </span>
       <strong>{value}</strong>
-      <small>{detail}</small>
+      {detail && <small>{detail}</small>}
     </div>
   );
 }
 export function Panel({
   title,
   subtitle,
+  help,
   action,
   children,
 }: {
   title: string;
   subtitle?: string;
+  help?: ReactNode;
   action?: ReactNode;
   children: ReactNode;
 }) {
@@ -172,7 +303,10 @@ export function Panel({
     <section className="panel">
       <div className="panel-head">
         <div>
-          <h2>{title}</h2>
+          <div className="panel-heading">
+            <h2>{title}</h2>
+            {help && <Help label={`About ${title}`}>{help}</Help>}
+          </div>
           {subtitle && <p>{subtitle}</p>}
         </div>
         {action}
@@ -183,18 +317,15 @@ export function Panel({
 }
 export function PageTitle({
   title,
-  children,
   action,
 }: {
   title: string;
-  children: ReactNode;
   action?: ReactNode;
 }) {
   return (
     <div className="page-title">
       <div>
         <h1>{title}</h1>
-        <p>{children}</p>
       </div>
       {action}
     </div>

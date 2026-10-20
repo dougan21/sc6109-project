@@ -28,10 +28,7 @@ function BatchDetail({ preview, id }: { preview: boolean; id: string }) {
       <a className="back-link" href="#/batches">
         ← All batches
       </a>
-      <PageTitle title="Batch details">
-        A batch is one signed transaction attempt. All members commit together
-        or roll back together.
-      </PageTitle>
+      <PageTitle title="Batch details" />
       {record.error && (
         <Notice tone="error">
           {record.error} {batch && "Last loaded data may be stale."}
@@ -44,31 +41,28 @@ function BatchDetail({ preview, id }: { preview: boolean; id: string }) {
       ) : (
         <>
           <div className="stats-grid three">
-            <Stat
-              label="Member intents"
-              value={batch.intentIds.length}
-              detail="One atomic execution attempt"
-            />
+            <Stat label="Member intents" value={batch.intentIds.length} />
             <Stat
               label="Gas used"
               value={batch.receipt?.gasUsed || "—"}
               detail={
                 preview
-                  ? "UI fixture gas · illustrative only"
+                  ? "Sample gas"
                   : batch.receipt
-                    ? "Includes gas on reverted receipts"
+                    ? "Receipt gas"
                     : "No receipt observed yet"
               }
             />
             <Stat
               label="Broadcast attempts"
               value={batch.broadcastCount}
-              detail="Rebroadcasting identical bytes is not a new transaction"
+              help="Rebroadcasting identical bytes is not a new transaction."
             />
           </div>
           <div className="two-column">
             <Panel
               title="Transaction evidence"
+              help="A batch is one atomic transaction attempt. One failed member rolls back the whole batch. Successful execution requires matching intent IDs in the receipt; a consumed nonce alone is insufficient."
               action={<Badge state={batch.state} />}
             >
               <KeyValues
@@ -143,10 +137,6 @@ function BatchDetail({ preview, id }: { preview: boolean; id: string }) {
                   </div>
                 ))}
               </div>
-              <div className="panel-footnote">
-                The API verifies exact intent IDs in a successful receipt. A
-                consumed nonce alone does not prove this payload executed.
-              </div>
             </Panel>
           </div>
         </>
@@ -181,21 +171,14 @@ export default function Batches({
             Refresh
           </button>
         }
-      >
-        Review grouped intents, transaction attempts and receipts.
-      </PageTitle>
+      />
       {runFilter}
       <div className="stats-grid three">
         <Stat
           label="Batches on this page"
           value={records.data ? rows.length : "—"}
-          detail="Current page · one transaction per batch"
         />
-        <Stat
-          label="Member intents"
-          value={records.data ? members : "—"}
-          detail="Retries may reference the same intent again"
-        />
+        <Stat label="Member intents" value={records.data ? members : "—"} />
         <Stat
           label="Reverted attempts"
           value={
@@ -203,7 +186,6 @@ export default function Batches({
               ? rows.filter((b) => b.state === "REVERTED").length
               : "—"
           }
-          detail="Gas is charged even on revert"
         />
       </div>
       {records.error && (
@@ -213,9 +195,10 @@ export default function Batches({
       )}
       <Panel
         title="Execution batches"
+        help="Counts cover the loaded page. Retries can reference the same intent in different batches. One failed member rolls back the whole transaction, while receipt gas is still charged."
         subtitle={
           records.updated
-            ? `Last observed ${time(records.updated)} · polls every 3s`
+            ? `Updated ${time(records.updated)}`
             : "Waiting for batches"
         }
       >
@@ -287,10 +270,6 @@ export default function Batches({
             setOffset={setOffset}
           />
         )}
-        <div className="panel-footnote">
-          One failed member reverts the whole transaction. A retry creates
-          another batch; repeated broadcasts of the same bytes do not.
-        </div>
       </Panel>
     </>
   );

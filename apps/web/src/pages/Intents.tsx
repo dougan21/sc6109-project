@@ -87,19 +87,8 @@ function SignedSubmission({
   }
   return (
     <div className="integration-card">
-      <div className="integration-top">
-        <div>
-          <span className="eyebrow">Agent submissions</span>
-          <h3>Submit a signed intent</h3>
-          <p>
-            Scheduled requests appear automatically in the list. Use this form
-            to submit an existing signed request manually.
-          </p>
-        </div>
-        <Badge state="MANUAL INPUT" />
-      </div>
-      <details>
-        <summary>Submit an existing signed intent</summary>
+      <details className="submission-details">
+        <summary>Submit signed intent</summary>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -158,9 +147,7 @@ function IntentDetail({ preview, id }: { preview: boolean; id: string }) {
       <a className="back-link" href="#/intents">
         ← All intents
       </a>
-      <PageTitle title="Intent details">
-        Review the signed request and its execution history.
-      </PageTitle>
+      <PageTitle title="Intent details" />
       {record.error && (
         <Notice tone="error">
           {record.error} {intent && "Last loaded data may be stale."}
@@ -177,7 +164,6 @@ function IntentDetail({ preview, id }: { preview: boolean; id: string }) {
           <Panel
             title="Intent evidence"
             action={<Badge state={intent.state} />}
-            subtitle="Exact amounts remain in token base units."
           >
             <KeyValues
               items={[
@@ -233,10 +219,7 @@ function IntentDetail({ preview, id }: { preview: boolean; id: string }) {
               </Notice>
             )}
           </Panel>
-          <Panel
-            title="State history"
-            subtitle="Earlier batch links preserve execution attempts."
-          >
+          <Panel title="State history">
             <ol className="timeline">
               {record.data?.events.map((event, i) => (
                 <li key={`${event.id}-${i}`}>
@@ -260,10 +243,6 @@ function IntentDetail({ preview, id }: { preview: boolean; id: string }) {
                 </li>
               ))}
             </ol>
-            <p className="form-note">
-              Intake may pass through several states between polls. This history
-              comes from durable events, not animation.
-            </p>
           </Panel>
         </div>
       )}
@@ -302,25 +281,17 @@ export default function Intents({
             Refresh
           </button>
         }
-      >
-        Track signed requests, execution status and transaction history.
-      </PageTitle>
+      />
       {runFilter}
       <div className="stats-grid three">
         <Stat
           label="Requests on this page"
           value={records.data ? rows.length : "—"}
-          detail="Current page only"
         />
-        <Stat
-          label="Confirmed"
-          value={records.data ? confirmed : "—"}
-          detail="Exact intent events matched"
-        />
+        <Stat label="Confirmed" value={records.data ? confirmed : "—"} />
         <Stat
           label="Pending or unresolved"
           value={records.data ? unresolved : "—"}
-          detail="Queued, processing or reconciling"
         />
       </div>
       {records.error && (
@@ -330,9 +301,10 @@ export default function Intents({
       )}
       <Panel
         title="Intent inbox"
+        help="Counts and state filters apply to the loaded page. SUBMITTED records a broadcast intention; CONFIRMED requires a matching successful receipt. HTTP acceptance alone does not confirm a transfer."
         subtitle={
           records.updated
-            ? `Last observed ${time(records.updated)} · polls every 3s`
+            ? `Updated ${time(records.updated)}`
             : "Waiting for records"
         }
         action={
@@ -428,10 +400,6 @@ export default function Intents({
             setOffset={setOffset}
           />
         )}
-        <div className="panel-footnote">
-          HTTP 202 = durably accepted. SUBMITTED = broadcast intention
-          persisted. CONFIRMED = matching successful receipt.
-        </div>
       </Panel>
       <SignedSubmission preview={preview} refresh={records.refresh} />
     </>

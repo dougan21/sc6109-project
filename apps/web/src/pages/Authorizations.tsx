@@ -5,6 +5,7 @@ import {
   Badge,
   Empty,
   Hash,
+  Help,
   KeyValues,
   Notice,
   PageTitle,
@@ -222,14 +223,11 @@ export default function Authorizations({
   const records = policies.data?.agents || [];
   return (
     <>
-      <PageTitle title="Authorizations">
-        Manage agent permissions, spending limits and token approvals.
-      </PageTitle>
+      <PageTitle title="Authorizations" />
       <div className="stats-grid three">
         <Stat
           label="Authorizations"
           value={policies.data ? records.length : "—"}
-          detail="Policies for the inspected owner"
         />
         <Stat
           label="Token balance"
@@ -241,11 +239,7 @@ export default function Authorizations({
                 : "—"
           }
           detail={
-            tokenView.data
-              ? symbol
-              : preview
-                ? "TEST · illustrative fixture"
-                : "Read from the selected token"
+            tokenView.data ? symbol : preview ? "TEST · sample" : undefined
           }
         />
         <Stat
@@ -258,15 +252,13 @@ export default function Authorizations({
                 : "—"
           }
           detail={
-            preview
-              ? "TEST · illustrative fixture"
-              : "Approved for the executor"
+            tokenView.data ? symbol : preview ? "TEST · sample" : undefined
           }
+          help="Token amount approved for the executor. Agent policy limits still apply."
         />
       </div>
       <Panel
         title="Owner lookup"
-        subtitle="Read policies for an owner address. Changes require that owner’s wallet."
         action={
           policies.data && (
             <span className="muted small">
@@ -334,7 +326,7 @@ export default function Authorizations({
       <div className="two-column auth-columns">
         <Panel
           title="Authorize an agent"
-          subtitle="A policy binds one signer, one token and one recipient."
+          help="Each policy binds one agent signer, token and recipient. Amounts use the token’s on-chain decimals."
         >
           {!preview && !canWrite && (
             <p className="form-hint">
@@ -417,8 +409,7 @@ export default function Authorizations({
               />
             </label>
             <div className="full form-note">
-              Amounts use the token’s on-chain decimals. Reconfiguration
-              increments epoch, resets spent, and invalidates old signatures.
+              Reconfiguring resets spent and invalidates existing signatures.
             </div>
             <button
               className="button primary full"
@@ -433,11 +424,13 @@ export default function Authorizations({
             </Notice>
           )}
           <div className="allowance-section">
-            <h3>ERC-20 allowance</h3>
-            <p>
-              Bounded approval lets the executor transfer tokens; the agent
-              policy still applies.
-            </p>
+            <h3 className="panel-heading">
+              ERC-20 allowance{" "}
+              <Help label="About ERC-20 allowance">
+                Approval lets the executor transfer this token up to the
+                approved amount. Agent policy limits still apply.
+              </Help>
+            </h3>
             <div className="input-action">
               <label className="sr-only" htmlFor="allowance">
                 Allowance amount
@@ -472,10 +465,7 @@ export default function Authorizations({
           )}
         </Panel>
         <div className="stack">
-          <Panel
-            title="Current policies"
-            subtitle="Revoked and expired policies remain visible for audit."
-          >
+          <Panel title="Current policies">
             {policies.loading && viewOwner && (
               <p className="inline-empty">Loading current policies…</p>
             )}
@@ -555,18 +545,18 @@ export default function Authorizations({
             )}
           </Panel>
           <div className="integration-card">
-            <span className="eyebrow">Scheduled agent</span>
-            <h3>Scheduled transfer agent</h3>
-            <p>
-              The integrated SDK submits scheduled requests through the relayer.
-              Track submitted requests in Intents; start and stop generation in
-              the local agent process. Process health is not reported here.
-            </p>
-            <div className="integration-foot">
+            <div className="integration-top">
+              <h3 className="panel-heading">
+                Scheduled agent{" "}
+                <Help label="About the scheduled agent">
+                  Start and stop generation in the local SDK process. This
+                  console shows submitted requests, not process health. Stopping
+                  generation does not revoke signed intents.
+                </Help>
+              </h3>
               <a className="button subtle" href="#/intents">
-                View submitted intents
+                View intents →
               </a>
-              <span>Stopping generation does not revoke signed intents.</span>
             </div>
           </div>
         </div>

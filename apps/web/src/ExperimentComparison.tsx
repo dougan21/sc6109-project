@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { Badge, KeyValues, Notice, Panel } from "./components";
+import { Badge, Help, KeyValues, Notice, Panel } from "./components";
 import { parseBenchmark } from "./lib/benchmark";
 import {
   groupComparison,
@@ -153,13 +153,12 @@ export default function ExperimentComparison({
   }
   return (
     <Panel
-      title="Controlled EVM comparison"
-      subtitle="Recorded experiment results · independent of the current live Run ID."
+      title="Batch comparison"
       action={
         <label
           className={`button secondary file-button ${preview ? "disabled" : ""}`}
         >
-          Import experiment JSON
+          Import JSON
           <input
             type="file"
             accept="application/json,.json"
@@ -202,7 +201,8 @@ export default function ExperimentComparison({
         </Notice>
       )}
       {recorded ? (
-        <div className="experiment-context">
+        <details className="experiment-context">
+          <summary>Experiment details & sources</summary>
           <p>
             <strong>{recorded.description}</strong> Ten independent owners ·
             batch caps 1 / 5 / 10 / 20 · three repetitions each · wait 0 ms.
@@ -231,12 +231,11 @@ export default function ExperimentComparison({
               D review manifest ↗
             </a>
           </div>
-        </div>
+        </details>
       ) : (
         <Notice>
-          <strong>Imported comparison: {comparison.comparisonId}.</strong> EVM
-          mode and provenance are declared by the file author. The independent
-          review of the bundled experiments does not apply to this file.
+          <strong>Imported: {comparison.comparisonId}.</strong> Author-declared
+          data · not independently reviewed.
         </Notice>
       )}
       <div className="experiment-legend" aria-label="Chart legend">
@@ -252,32 +251,46 @@ export default function ExperimentComparison({
           <i className="legend-dot" />
           Individual run
         </span>
+        <Help label="Chart methodology">
+          Bars show mean per-run values; dots show repetitions. Axes start at
+          zero and stay fixed across the recorded workloads. Tables show mean ±
+          sample SD, not confidence intervals. Latency values average per-run
+          percentiles, not pooled samples. Recorded results are independent of
+          the live Run ID.
+        </Help>
       </div>
       <div className="experiment-charts">
         <MetricChart
           title="Throughput"
-          unit="intents/s · higher is better"
+          unit="intents/s"
           metric="throughput"
           groups={groups}
           fixedScale={!!recorded}
         />
         <MetricChart
           title="End-to-end latency · p95"
-          unit="milliseconds · lower is better"
+          unit="ms"
           metric="p95"
           groups={groups}
           fixedScale={!!recorded}
         />
         <MetricChart
           title="Gas per successful intent"
-          unit="execution gas · lower is better"
+          unit="execution gas"
           metric="gas"
           groups={groups}
           fixedScale={!!recorded}
         />
         <div className="experiment-failures">
           <div className="experiment-failure-heading">
-            <h3>Observed execution failures</h3>
+            <h3 className="panel-heading">
+              Execution failures{" "}
+              <Help label="About execution failures">
+                Terminal failures divided by attempted intents. Pending and
+                unknown outcomes are separate. Zero failures on valid requests
+                does not establish invalid-intent tolerance.
+              </Help>
+            </h3>
             {recorded && (
               <span className="scope-label">Valid requests only</span>
             )}
@@ -289,10 +302,7 @@ export default function ExperimentComparison({
               >
                 {failed} <span>/ {numeric(attempted, 0)} attempted</span>
               </strong>
-              <p>
-                {rate(failed! / attempted)} across this workload. All submitted
-                intents were valid; this does not test invalid-intent tolerance.
-              </p>
+              <p>{rate(failed! / attempted)} failure rate</p>
             </>
           ) : (
             <>
@@ -300,37 +310,21 @@ export default function ExperimentComparison({
                 {rate(Math.min(...comparison.runs.map((r) => r.failureRate)))}–
                 {rate(Math.max(...comparison.runs.map((r) => r.failureRate)))}
               </strong>
-              <p>
-                Range of declared per-run rates. Attempt denominators are
-                available only in the author's raw results.
-              </p>
+              <p>Declared per-run range · denominators in raw results</p>
             </>
           )}
-          <p className="muted">
-            Pending and unknown outcomes stay separate from failures.
-          </p>
         </div>
-      </div>
-      <div className="experiment-chart-note">
-        Bars show the arithmetic mean of per-run values; dots show individual
-        repetitions. Each chart starts at zero
-        {recorded ? "; axes stay fixed across the two recorded workloads" : ""}.
-        Detailed values below use mean ± sample standard deviation, not
-        confidence intervals.
       </div>
       <div className="table-scroll">
         <table className="experiment-summary">
-          <caption>
-            Summary by configuration · latency columns average per-run
-            percentiles; they are not pooled percentiles.
-          </caption>
+          <caption>Mean ± sample SD</caption>
           <thead>
             <tr>
               <th>Batch cap / wait</th>
               <th>Runs</th>
               <th>Intents/s</th>
-              <th>p50 ms</th>
-              <th>p95 ms</th>
+              <th>Run p50 · ms</th>
+              <th>Run p95 · ms</th>
               <th>Gas/success</th>
               <th>Gas vs baseline</th>
             </tr>
@@ -376,8 +370,10 @@ export default function ExperimentComparison({
         </table>
       </div>
       {recorded && (
-        <div className="experiment-limits">
-          <strong>Interpretation limits</strong>
+        <details className="experiment-limits">
+          <summary>
+            Experiment limits <span>Local Anvil · overloaded baseline</span>
+          </summary>
           <ul>
             <li>
               One pending relayer transaction, 1 s Anvil blocks and one
@@ -395,12 +391,10 @@ export default function ExperimentComparison({
               below.
             </li>
           </ul>
-        </div>
+        </details>
       )}
       <details className="config-details">
-        <summary>
-          Inspect all {comparison.runs.length} measured runs and raw sources
-        </summary>
+        <summary>Measured runs ({comparison.runs.length})</summary>
         <div className="table-scroll">
           <table className="benchmark-table">
             <thead>
@@ -454,7 +448,7 @@ export default function ExperimentComparison({
         </div>
       </details>
       <details className="config-details">
-        <summary>Inspect provenance and measurement windows</summary>
+        <summary>Provenance & windows</summary>
         {comparison.runs.map((r) => (
           <div className="provenance" key={r.runId}>
             <h3>{r.runId}</h3>
@@ -486,7 +480,7 @@ export default function ExperimentComparison({
         ))}
       </details>
       <details className="config-details">
-        <summary>Paste experiment JSON instead</summary>
+        <summary>Paste JSON</summary>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -494,7 +488,7 @@ export default function ExperimentComparison({
           }}
         >
           <label htmlFor="benchmark-json" className="small">
-            Same integration schema and validation as file import
+            Experiment JSON
           </label>
           <textarea
             id="benchmark-json"

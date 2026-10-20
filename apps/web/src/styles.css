@@ -436,12 +436,54 @@ main {
   letter-spacing: -0.45px;
   color: var(--navy);
 }
-.page-title p {
-  max-width: 760px;
-  margin-top: 7px;
-  color: #687380;
-  font-size: 13px;
-  line-height: 1.6;
+.help-trigger {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid #a9b3c0;
+  border-radius: 50%;
+  background: transparent;
+  color: #6a7787;
+  font:
+    500 10px/1 Arial,
+    sans-serif;
+  vertical-align: middle;
+}
+.help-trigger::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+}
+.help-trigger:hover,
+.help-trigger[aria-expanded="true"] {
+  color: var(--navy);
+  border-color: var(--navy);
+  background: #edf2f8;
+}
+.help-popover {
+  position: fixed;
+  z-index: 100;
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid #cdd6e1;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 4px 16px #142d4b1a;
+  color: #46566a;
+  font-size: 12px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+.panel-heading,
+.stat > .stat-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 .eyebrow {
   display: block;
@@ -760,6 +802,11 @@ main {
   margin-top: 15px;
   padding-top: 12px;
   border-top: 1px solid #e2e7ee;
+}
+.integration-card > .submission-details {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .integration-card details form {
   margin-top: 13px;
@@ -1305,12 +1352,17 @@ tbody td > a {
 }
 .experiment-context {
   margin: 0 20px 18px;
-  padding: 14px;
-  background: #f4f7fa;
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  padding: 0;
   font-size: 12px;
   color: #526174;
+}
+.experiment-context[open] {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.experiment-context > p {
+  margin-top: 12px;
+  line-height: 1.7;
 }
 .experiment-context strong {
   color: var(--navy);
@@ -1352,7 +1404,7 @@ tbody td > a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  margin: 0 20px;
+  margin: 0 20px 16px;
 }
 .experiment-chart,
 .experiment-failures {
@@ -1438,12 +1490,6 @@ tbody td > a {
   color: #6a788b;
   font-size: 10px;
 }
-.experiment-chart-note {
-  padding: 14px 20px 20px;
-  font-size: 11px;
-  line-height: 1.6;
-  color: var(--muted);
-}
 .experiment-failures > strong {
   display: block;
   margin: 22px 0 16px;
@@ -1511,7 +1557,7 @@ tbody td > a {
 }
 .experiment-limits {
   margin: 4px 20px 20px;
-  padding: 14px 16px 2px;
+  padding: 12px 16px;
   border: 1px solid #eadfca;
   border-left: 3px solid #b28b49;
   border-radius: 4px;
@@ -1520,9 +1566,15 @@ tbody td > a {
   color: #526174;
   line-height: 1.7;
 }
-.experiment-limits > strong {
+.experiment-limits > summary {
   color: var(--caution);
-  font-weight: 600;
+  font-weight: 500;
+}
+.experiment-limits > summary > span {
+  display: inline-block;
+  margin-left: 12px;
+  color: var(--muted);
+  font-size: 11px;
 }
 .experiment-limits ul {
   padding-left: 18px;
@@ -1583,7 +1635,7 @@ tbody td > a {
 }
 @media (max-width: 480px) {
   .experiment-charts {
-    margin: 0 16px;
+    margin: 0 16px 16px;
   }
   .experiment-legend {
     margin-left: 16px;
@@ -1701,9 +1753,6 @@ tbody td > a {
   }
   .page-title h1 {
     font-size: 23px;
-  }
-  .page-title p {
-    font-size: 12px;
   }
   .stat {
     padding: 15px;
