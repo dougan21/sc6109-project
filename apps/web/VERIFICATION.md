@@ -1,5 +1,14 @@
 # D 实现验证记录
 
+## 精简界面文案与按需帮助（2026-10-20）
+
+- 按成员 D 的反馈，删除四个页面及详情页的用途介绍、重复统计说明和常驻技术脚注。压缩手工签名提交入口与 scheduled agent 卡片；字段、数据和操作保持原有行为。共享 `PageTitle` 不再提供说明段落，防止各页重复添加。
+- 新增少量可悬浮、聚焦或点击的帮助提示，使用具名按钮、`aria-describedby` 和 tooltip；支持再次点击、Escape、外部点击、失焦及滚动关闭，浮层位置限制在视口内。长方法、原始来源与完整实验限制放入折叠区。金额单位、样例/实测标识、Local Anvil / baseline 过载范围、有效请求范围、重配置后果及失败/未知结果提示仍可见。
+- Node 22.23.1：13 项现有前端测试、TypeScript、生产构建及 `git diff --check` 通过。没有修改签名、钱包交易、API、原始数据或聚合逻辑；未为此次文案/交互调整重跑全仓合约及 E 的归档审查。
+- In-app browser 验证：四页及 failed intent 详情；筛选与跳转；手工签名表单在 Preview 下仍禁用；金额 base units 与失败签名未撤销的提示保留。稳态/突发可切换，汇总数值保持一致；来源与限制折叠可展开。帮助按钮点击/再次点击、键盘 Tab 聚焦及描述关联、Escape 和外部点击关闭通过。
+- 876px / 1280px 桌面与 390px 手机检查通过，四页在 390px 均为 document.scrollWidth = innerWidth = 390；1280px 的授权双栏及重配置提示正常。390px 帮助浮层边界为 x=74–374、y=438–602，位于 390×844 视口内。临时视口已重置。此轮检查未操作扩展钱包，也未新增实际链上交易。
+- 截图：`qa/ui-copy-performance.jpg`、`qa/ui-copy-authorizations.jpg`、`qa/ui-copy-intents.jpg`、`qa/ui-copy-batches.jpg`、`qa/ui-copy-mobile-help.jpg`。设计、代码与自动验收由 Codex 协助完成，供成员 D 审阅。
+
 ## 合并与 UI 阅读层级优化（2026-10-20）
 
 - E 的 PR #6 已合并到 `main`（`2ca64d7`），D 的 PR #7 随后合并（`0619528`）；两次合并均保留原提交。UI 改动基于该主分支，仅涉及 `apps/web/`。

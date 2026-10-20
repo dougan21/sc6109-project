@@ -75,11 +75,6 @@ export default function App() {
         <button className="button subtle" disabled={preview}>
           Apply
         </button>
-        <span>
-          {route.page === "performance"
-            ? "Empty selects the default run."
-            : "Leave empty to show all runs."}
-        </span>
       </form>
     );
   const props: PageProps = {
@@ -168,26 +163,17 @@ export default function App() {
         <main>
           {preview && (
             <Notice tone="preview">
-              <strong>Sample preview.</strong> Operational records and live
-              metrics are examples; wallet actions are disabled. Recorded
-              experiments and archived gas data are labeled separately.
+              <strong>UI preview.</strong> Sample operational data · wallet
+              actions disabled.
             </Notice>
           )}
           {!preview && connection.error && (
             <Notice tone={route.page === "performance" ? "info" : "error"}>
               <strong>Live relayer unavailable.</strong>{" "}
-              {route.page === "performance"
-                ? "Recorded experiments remain available below."
-                : connection.error}{" "}
+              {route.page !== "performance" && connection.error}{" "}
               <button className="inline-button" onClick={connection.refresh}>
                 Retry
               </button>
-              {route.page !== "performance" && (
-                <span className="notice-line">
-                  You can inspect the layout with “Preview UI”. Live records are
-                  never replaced by sample data.
-                </span>
-              )}
             </Notice>
           )}
           {!preview && props.info?.mode === "mock" && (
@@ -198,8 +184,7 @@ export default function App() {
           )}
           {!preview && !connection.error && health.error && (
             <Notice tone="warning">
-              Worker health is unavailable or degraded. Records may be stale; a
-              successful API connection does not prove execution health.
+              Worker health unavailable or degraded. Records may be stale.
             </Notice>
           )}
           {!preview && wallet.error && (

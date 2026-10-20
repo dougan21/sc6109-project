@@ -43,12 +43,10 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
   const m = metrics.data;
   return (
     <>
-      <PageTitle title="Performance">
-        Compare measured baseline and batch runs across two recorded workloads.
-      </PageTitle>
+      <PageTitle title="Performance" />
       <ExperimentComparison preview={preview} />
       <details className="live-observation">
-        <summary>Live relayer observation · cumulative metrics</summary>
+        <summary>Live metrics · cumulative</summary>
         {runFilter}
         <div className="section-label">
           <span>Current run</span>
@@ -63,7 +61,8 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
           <Stat
             label="Cumulative throughput"
             value={m ? numeric(m.throughputIntentsPerSecond) : "—"}
-            detail="Confirmed intents / observation seconds"
+            detail="intents/s"
+            help="Confirmed intents divided by elapsed observation time. This cumulative rate changes as the window grows."
           />
           <Stat
             label="End-to-end latency · p95"
@@ -106,10 +105,7 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
             }
           />
         </div>
-        <Panel
-          title="Observation context"
-          subtitle="This rate changes as the observation window grows; it is not a final benchmark."
-        >
+        <Panel title="Observation context">
           <div className="two-column context-columns">
             <KeyValues
               items={[
@@ -170,11 +166,11 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
       <details className="live-observation archived-review">
         <summary>
           Archived contract gas review
-          <span>Single owner · separate workload · reference only</span>
+          <span>Single owner · historical</span>
         </summary>
         <Panel
           title="Existing contract gas review"
-          subtitle="Historical repository evidence · 20 identical transfers · one measurement per batch size."
+          help="20 identical transfers, one measurement per batch size. These single-owner results are separate from the controlled ten-owner experiments. They establish gas costs only."
           action={<span className="source-tag">Archived measurement</span>}
         >
           <div className="gas-layout">
@@ -220,10 +216,7 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
                 54.40<span>%</span>
               </strong>
               <h3>reduction in gas per intent</h3>
-              <p>
-                Batch size 20 versus singles, sharing the same owner, token and
-                recipient. Setup costs are excluded.
-              </p>
+              <p>Same owner, token and recipient · setup excluded</p>
               <div className="source-links">
                 <a
                   href="https://github.com/dougan21/sc6109-project/blob/7cd09b728396248b8a2839ac89dbaf41efae895f/evidence/gas.json"
@@ -267,11 +260,6 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className="panel-footnote">
-            Source: evidence/gas.csv at main@7cd09b7. This review does not
-            establish throughput, latency or failure-rate improvements. Archived
-            deployment addresses are not current.
           </div>
         </Panel>
       </details>

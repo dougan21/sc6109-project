@@ -44,6 +44,8 @@ npm run dev
 
 ## 四个页面与真实边界
 
+界面文案以标题、字段、数据和操作为主，不为每个页面或模块附加用途说明。重复解释直接删除；少量指标定义通过 `?` 按需显示（悬浮、键盘聚焦或点击），较长的方法与来源使用折叠区。错误、操作后果、金额单位及数据来源/范围标识仍直接可见。
+
 | 页面           | 已实现                                                                                                                                                                    |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Authorizations | 不连接钱包也能查询 owner；当前策略与索引区块；RPC 读取 decimals/symbol/balance/allowance；owner 钱包 approve/configure/revoke；网络和账户校验；确认回执后更新；不收集私钥 |
@@ -61,7 +63,7 @@ HTTP 202 不是转账成功；SUBMITTED 是网络调用前持久化的广播意�
 
 - **Agent：** 已接入 PR #4 的 SDK，D 提供 `demo:agent:evm` 启动命令。仍使用原有 `POST /intents`，前端轮询自动显示请求、batch 与指标；不增加任务控制 API。页面不宣称可读取 runner 的进程健康、未签名或 `SKIPPED` 等仅存在于 SDK journal 的状态；这些在本地终端查看。签名 JSON 也可通过 Intents 页的折叠表单手工提交，且不存到浏览器存储。
 - **实验：** 内置摘要直接复用 E 的两个 `benchmarks/results/*/summary.json`；D 的独立核验清单为 `public/integration/experiment-review.json`。图表均从零开始，两组归档工作负载使用相同坐标尺度；条形为逐次值的算术平均，点为每次测量，表格为均值 ± 样本标准差（不是置信区间）。p50/p95 列平均每次测量的分位数，不冒充合并样本后的分位数。每个 run 均可追溯到固定 E 提交的原始目录。
-- **阅读层级：** 蓝、灰、白为主色；图例区分 baseline、batch 与单次测量。Gas 相对变化用箭头和 less/more 文字表达，绿色表示降幅、红色表示增加；浅琥珀色标明解释限制及“仅有效请求”范围。历史单 owner gas review 默认折叠，可展开查看完整图表、表格与来源，避免与十 owner 受控实验混读。
+- **阅读层级：** 蓝、灰、白为主色；图例区分 baseline、batch 与单次测量。Gas 相对变化用箭头和 less/more 文字表达，绿色表示降幅、红色表示增加。浅琥珀色的限制入口保留 Local Anvil / baseline 过载范围，“仅有效请求”也直接标注；详细限制、实验来源默认折叠，统计方法放在图例旁的帮助提示。历史单 owner gas review 独立折叠，展开可看完整图表、表格与来源。
 - **追加导入：** 文件或粘贴继续使用 `public/integration/benchmark.schema.json`，校验 baseline（batchSize=1、maxWaitMs=0）、batch、EVM、唯一 runId、共同 commit/chain/workload/窗口类型、四类指标、样本数、unfinished 和 rawResults。外部导入单独标记为作者声明，不继承内置数据的核验状态；导入失败保留当前有效结果。前端结构校验不能代替原始证据审查。
 - `/metrics` 仅作累计观察；吞吐量随查询时间变化，不能直接作为结束后的固定实验结果。Mock gas 必须标明合成。已有 `gas.csv` 仅支持同 owner/token/recipient 的 20 次转账 gas review，不能推断另外三类指标。
 
