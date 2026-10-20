@@ -93,12 +93,26 @@ On 2026-10-20 member E stated that they had reviewed the code and documentation 
 branch, after a walkthrough of `metrics.ts`, `run.ts` and the README's interpretation by the
 agent. No changes were requested. Specific findings were not recorded.
 
+## After merge (2026-10-20)
+
+PR #6 merged into `main` as `2ca64d7`. D's PR #7 (`0619528`) then integrated the results:
+
+- D's `npm run check:experiments` (`apps/web/scripts/check-experiments.ts`) recomputes all 24 runs
+  from the raw archives without calling E's metric functions: 2,400 intents, 834 receipts, digests,
+  nonces, the four metrics, warm-up exclusion and balances. E reran it on `main@0619528` with
+  Node 22.23.1, and it printed `PASS`.
+- D ran a 20-intent, 4-owner reproduction of `npm run bench` on Node 22.23.1 on its own checkout.
+- Both summaries are bundled into the Performance page with a Workload selector. Screenshots
+  are in `apps/web/qa/performance-e-*.jpg`.
+
+D's record says this work was AI-assisted (Codex), and it does not claim D or B reviewed all
+the code in person. See the 2026-10-20 section of `apps/web/VERIFICATION.md`.
+
 ## Not yet done
 
-- Importing `summary.json` in the Performance page by hand. Only `parseBenchmark` was run.
-- Review of the calculations by D and B (plan §9.1). See `docs/e-handoff.md`.
+- B's review of the calculations (plan §9.1). See `docs/e-handoff.md`.
 - Studies from plan §9.6 and §11 not run yet: waiting windows at low load (H3), invalid-intent
   mixes (H4), shared-budget owners, restart recovery under load, and 500/1000-intent runs.
-- Reproduction from a fresh clone on another machine.
+- A full reproduction from a fresh clone on another machine. D's 20-intent run covers only part of it.
 
 AI use is recorded in `docs/ai-usage-log.md`.
