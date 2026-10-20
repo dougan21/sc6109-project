@@ -1,13 +1,15 @@
 # E → D: measured performance results
 
-The frontend and scheduled-agent demo are implemented. The remaining input needed for the complete performance comparison is **measured EVM baseline/batch evidence and its JSON summary**. No new backend endpoint or UI work is required from E.
+**Status: delivered and accepted for D's current integration scope on 2026-10-20.** E supplied the measured EVM baseline/batch evidence in [PR #6](https://github.com/dougan21/sc6109-project/pull/6), head `25a2410`, produced by benchmark code `ce13b8b`. D independently checked both comparisons (24 runs, 2,400 intents, 834 archived execution receipts) and added them to the Performance page. No additional E data or backend endpoint is required for this integration.
+
+The recorded comparisons are `benchmarks/results/bs-steady10-n100-20261019/summary.json` and `benchmarks/results/bs-burst-n100-20261019/summary.json`. D's reproducible acceptance check is `npm run check:experiments`; scope and limits are in [VERIFICATION.md](VERIFICATION.md). The following contract remains available for future measured comparisons.
 
 ## Deliverables
 
 1. A summary JSON under 2 MB matching [`public/integration/benchmark.schema.json`](public/integration/benchmark.schema.json). Include both a baseline (`batchSize=1`, `maxWaitMs=0`) and the tested batch configuration(s). Give each measured run a unique `runId` and its `repetition` number. Use the same source commit, chain, workload/initial-state recipe and measurement-window kind across a comparison.
 2. Inspectable raw results and the commands/configuration needed to reproduce them. Each summary row's `rawResults` points to those repository files or source references. Existing intent/batch API records, transaction receipts, timestamps and environment/configuration records can provide the evidence; a new results API is unnecessary.
 
-Use the existing Performance page's file input or JSON paste to import the summary. An absent summary remains explicitly marked “No comparison data”.
+Both delivered comparisons are bundled into the Performance page and selected with its Workload control. Additional summaries can still use the file input or JSON paste. Imported files are labeled as author-declared and do not inherit D's independent review of the bundled sources.
 
 ## Fields and metric definitions
 

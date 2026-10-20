@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-10-20",
+  "sourcePr": 6,
+  "sourceCommit": "25a24101a2477bb435fabaa506b387e0e1ff0200",
+  "benchmarkCommit": "ce13b8b86d9feda9edc9c77c903b4c090ed5317f",
+  "scope": "Independent recomputation and archived-record reconciliation; not a replay of all historical chains or all nonce queries.",
+  "counts": {
+    "comparisons": 2,
+    "runs": 24,
+    "intents": 2400,
+    "receipts": 834
+  },
+  "comparisons": [
+    {
+      "id": "bs-steady10-n100-20261019",
+      "label": "Steady · 10 intents/s",
+      "sourcePath": "benchmarks/results/bs-steady10-n100-20261019/summary.json",
+      "summarySha256": "81d71bf6a664a129d808ec6216df1fee91308afaeee20453f8f4f834551db796",
+      "runs": [
+        {
+          "runId": "bs-steady10-n100-20261019-b1-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10341240"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b1-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10341204"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b1-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10341180"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b5-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 21,
+          "receiptGas": "8186186"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b5-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 21,
+          "receiptGas": "8186258"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b5-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 21,
+          "receiptGas": "8186270"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b10-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7914292"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b10-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7914124"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b10-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7914173"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b20-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7880999"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b20-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7880915"
+        },
+        {
+          "runId": "bs-steady10-n100-20261019-b20-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 11,
+          "receiptGas": "7880843"
+        }
+      ],
+      "attempted": 1200,
+      "groups": [
+        {
+          "batchSize": 1,
+          "throughputMean": 1.0036,
+          "gasMean": 103412.08
+        },
+        {
+          "batchSize": 5,
+          "throughputMean": 4.8256000000000006,
+          "gasMean": 81862.38
+        },
+        {
+          "batchSize": 10,
+          "throughputMean": 9.232000000000001,
+          "gasMean": 79141.96333333333
+        },
+        {
+          "batchSize": 20,
+          "throughputMean": 9.267266666666666,
+          "gasMean": 78809.19
+        }
+      ]
+    },
+    {
+      "id": "bs-burst-n100-20261019",
+      "label": "Burst · 100 intents",
+      "sourcePath": "benchmarks/results/bs-burst-n100-20261019/summary.json",
+      "summarySha256": "9e4e34c57649993bfefb9ce67c37043682966c089e7138ea3a4b44cb4d0eef5b",
+      "runs": [
+        {
+          "runId": "bs-burst-n100-20261019-b1-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10341228"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b1-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10341276"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b1-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 100,
+          "receiptGas": "10340088"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b5-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 20,
+          "receiptGas": "8158988"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b5-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 20,
+          "receiptGas": "8059388"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b5-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 20,
+          "receiptGas": "8125752"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b10-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 10,
+          "receiptGas": "7687754"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b10-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 10,
+          "receiptGas": "7754166"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b10-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 10,
+          "receiptGas": "7820458"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b20-r1",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 5,
+          "receiptGas": "6090588"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b20-r2",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 5,
+          "receiptGas": "6090588"
+        },
+        {
+          "runId": "bs-burst-n100-20261019-b20-r3",
+          "attempted": 100,
+          "failed": 0,
+          "confirmed": 100,
+          "unfinished": 0,
+          "transactions": 5,
+          "receiptGas": "6090708"
+        }
+      ],
+      "attempted": 1200,
+      "groups": [
+        {
+          "batchSize": 1,
+          "throughputMean": 1.0038333333333334,
+          "gasMean": 103408.64
+        },
+        {
+          "batchSize": 5,
+          "throughputMean": 5.072466666666667,
+          "gasMean": 81147.09333333334
+        },
+        {
+          "batchSize": 10,
+          "throughputMean": 10.187266666666666,
+          "gasMean": 77541.26000000001
+        },
+        {
+          "batchSize": 20,
+          "throughputMean": 21.0321,
+          "gasMean": 60906.28
+        }
+      ]
+    }
+  ]
+}

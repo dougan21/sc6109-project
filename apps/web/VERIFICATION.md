@@ -1,5 +1,20 @@
 # D 实现验证记录
 
+## E 归档实验审查与页面接入（2026-10-20）
+
+审查对象：E 的 [PR #6](https://github.com/dougan21/sc6109-project/pull/6)，head `25a24101a2477bb435fabaa506b387e0e1ff0200`；实验源码 `ce13b8b86d9feda9edc9c77c903b4c090ed5317f`。D 接入分支：`codex/d-experiment-integration`。结论：**在已审查范围内可接入，并须保留下面的限制**。未发现阻断 D 接入的计算、格式或归档对账问题；E 原始代码与数据未改动。
+
+- `scripts/check-experiments.ts` 独立于 E 的指标函数，逐一核验两个 workload 的 24 次测量、2,400 个 intent 和 834 笔归档 receipt。检查 ID/nonce 唯一性、frozen-domain digest、状态时间顺序、工作负载与控制变量、源码 SHA-256、环境、固定测量窗口、吞吐量、最近秩 p50/p95、失败分母、gas 精确除法、batch 归属、事件 ID、warm-up 排除、owner/recipient 余额和 spent。两个摘要均通过原 D schema。清单及摘要 hash 保存在 `public/integration/experiment-review.json`。
+- 归档中全部 24 次实验均为 100 accepted / 100 attempted / 100 confirmed，0 failed、0 unfinished。D 复算值与每次摘要、指标文件及归档回执投影一致。历史节点已停止；这些检查不能独立重新查询历史链或全部 consumed nonce。nonce consumed 的逐次布尔结论来自 E 的归档标记及已审阅 runner，不冒充 D 新做的历史 RPC 查询。
+- 另在 Node 22.23.1、本机独立端口进行小规模 EVM 复现：`npm run bench -- --sizes 1,10 --reps 1 --intents 20 --owners 4 --arrival burst --comparison d-review-20261020-01 --out data/d-e-review --rpc-port 18745 --api-port 13245`。两次测量全部确认，独立链上对账通过，摘要导出成功；进程自动退出。输出位于忽略的 `data/`，是未提交工作树上的复现检查，不混入 E 正式实测或页面结果。
+- 项目 `npm run check` 通过：28 合约、27 relayer、11 SDK 测试，TypeScript、Solidity 格式、接口冻结检查通过。Node 22 的 `npm run test:bench` 5 项通过；D `npm test` 13 项通过（新增来源 hash/分母、样本 SD、不同等待窗口隔离、零成功 N/A），共 84 项。D 生产构建、独立归档核验通过。
+- Performance 默认选择稳态实验，可切换突发实验；图表、逐次列表、配置均值/样本标准差、四类指标和固定 E 提交的原始证据可用。三个量化图表均从 0 开始，工作负载切换保持坐标尺度一致，点对应具体 runId；失败卡片显示实测分子/分母。p50/p95 表格是逐次分位数的均值，不声称 pooled percentile；SD 不标成置信区间。
+- 浏览器已验证：两组结果切换；与 aggregate 表一致的均值和 gas 差值；12 次明细与证据目录链接；E 摘要通过 JSON 粘贴导入；无效导入拒绝且保留当前数据；零成功 QA 数据为 N/A；真实归档与 Preview UI 的业务样例隔离；独立折叠实时观察；后端离线仍能查看归档。
+- 默认 1280px 与手机 390px 均无全页横向溢出（document.scrollWidth 等于 innerWidth）。390px 下三个图表自身均无溢出，宽表仅在自身容器内滚动。临时视口已恢复。截图：`qa/performance-e-steady.jpg`、`qa/performance-e-burst.jpg`、`qa/performance-e-mobile.jpg`。
+- 仍需保留的解释边界：本地 Anvil、单个待确认 relayer 交易、1 秒区块、单确认、全部有效请求；两组 workload 都使 baseline 过载。结果不能证明公链容量、故障容忍或低负载等待窗口效果，也不替代完整计划中的 H3/H4 场景。当前 D 四类比较已收到所需数据，无需再向 E 要求接口或重复导出。
+
+以下为 2026-10-13 的历史验证记录；其中当时的数据缺口已由本节的 E 接入关闭。
+
 日期：2026-10-13（Asia/Singapore）。D 分支 `codex/d-frontend`；验证基线为组员 PR #4 的 `f0971da373786a6e6a67b95444a114e27d194505`（`main@7cd09b7` 上的 C SDK 提交）。该 SDK 已随 PR #4 合并到 `main`；D 的 PR #5 面向 `main`，单独提交 D 的改动。
 
 ## 深蓝配色与 PR #4 联调（2026-10-13）
@@ -39,8 +54,10 @@
 
 - 没有操作用户真实浏览器扩展钱包进行人工签名。自动测试验证的是同一钱包适配层与真实本地合约，最终小组录制前仍需使用演示钱包走一次真实扩展 UI。
 - 浏览器自动化的文件选择器设置测试文件失败，尚未自动验证 native file picker 的导入流程；文件解析与 JSON 粘贴使用同一个校验入口，粘贴入口已完整验证。两种入口均已实现。
-- 已完成使用 C SDK 的有限定时任务真实链功能演示，未完成四类受控性能对比。仅 E 的实测原始证据与摘要仍为完整实验的刚需；不要求 A/B/C 为 D 新增功能。
+- 2026-10-13 的 E 数据缺口已于 2026-10-20 关闭；当前两组受控实测已接入，范围与未验证场景见本文件首节。不要求 A/B/C/E 为 D 新增功能。
 
 ## AI 辅助与设计记录
 
 本次 D 代码、样式、接入 schema、演示辅助脚本及测试由 Codex 协助生成和检查。关键设计是复用现有 ABI/类型、wallet 与 agent signer 分离、样例显式隔离、未知结果不报成功、累计指标不冒充最终实验、零成功样本不伪造单位成本。自动检查由 Codex 执行；本记录不声称成员 D 已完成人工代码审阅。成员 D 可据上述源码和验证记录准备自己的解释与演示。
+
+2026-10-20 的独立数据核验脚本、图表、归档接入、测试与本节记录同样由 Codex 按成员 D“检查 E 并推进 D”的请求协助完成。图表与交互由 Codex提出并实现；不声称成员 D/B 已亲自审阅全部代码或历史原始记录。
