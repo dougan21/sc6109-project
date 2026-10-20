@@ -49,7 +49,7 @@ npm run dev
 | Authorizations | 不连接钱包也能查询 owner；当前策略与索引区块；RPC 读取 decimals/symbol/balance/allowance；owner 钱包 approve/configure/revoke；网络和账户校验；确认回执后更新；不收集私钥 |
 | Intents        | runId 分页查询、当前页状态筛选、详情、完整状态历史、历史 batch 链接、错误和未知结果；可手工提交现成 agent 签名 JSON，不生成 agent 签名                                    |
 | Batches        | 列表、详情、成员、同一 txHash、EOA nonce、广播次数、receipt、gas、原子回滚与未知结果说明                                                                                  |
-| Performance    | 内置两组 E 实测结果、四类指标、均值与样本标准差、每次测量及固定提交的原始证据链接；文件/JSON 导入；独立折叠的实时累计观察；单独标注的历史 gas review                      |
+| Performance    | 内置两组 E 实测结果、四类指标、均值与样本标准差、每次测量及固定提交的原始证据链接；文件/JSON 导入；独立折叠的实时累计观察与历史 gas review                              |
 
 业务记录默认使用实际 API。服务断开显示错误，保留的旧数据标明可能过时；不会自动换成演示数据。Performance 的归档实测直接来自仓库，与实时 API 分开。“Preview UI” 是主动开启的业务样例模式，有全局标识并禁用所有钱包写入、签名提交、实验导入与工作负载切换。业务样例不能作为功能或性能证据；真实归档实验和历史 gas review 始终单独标注来源，预览样例不会替换它们。
 
@@ -61,6 +61,7 @@ HTTP 202 不是转账成功；SUBMITTED 是网络调用前持久化的广播意�
 
 - **Agent：** 已接入 PR #4 的 SDK，D 提供 `demo:agent:evm` 启动命令。仍使用原有 `POST /intents`，前端轮询自动显示请求、batch 与指标；不增加任务控制 API。页面不宣称可读取 runner 的进程健康、未签名或 `SKIPPED` 等仅存在于 SDK journal 的状态；这些在本地终端查看。签名 JSON 也可通过 Intents 页的折叠表单手工提交，且不存到浏览器存储。
 - **实验：** 内置摘要直接复用 E 的两个 `benchmarks/results/*/summary.json`；D 的独立核验清单为 `public/integration/experiment-review.json`。图表均从零开始，两组归档工作负载使用相同坐标尺度；条形为逐次值的算术平均，点为每次测量，表格为均值 ± 样本标准差（不是置信区间）。p50/p95 列平均每次测量的分位数，不冒充合并样本后的分位数。每个 run 均可追溯到固定 E 提交的原始目录。
+- **阅读层级：** 蓝、灰、白为主色；图例区分 baseline、batch 与单次测量。Gas 相对变化用箭头和 less/more 文字表达，绿色表示降幅、红色表示增加；浅琥珀色标明解释限制及“仅有效请求”范围。历史单 owner gas review 默认折叠，可展开查看完整图表、表格与来源，避免与十 owner 受控实验混读。
 - **追加导入：** 文件或粘贴继续使用 `public/integration/benchmark.schema.json`，校验 baseline（batchSize=1、maxWaitMs=0）、batch、EVM、唯一 runId、共同 commit/chain/workload/窗口类型、四类指标、样本数、unfinished 和 rawResults。外部导入单独标记为作者声明，不继承内置数据的核验状态；导入失败保留当前有效结果。前端结构校验不能代替原始证据审查。
 - `/metrics` 仅作累计观察；吞吐量随查询时间变化，不能直接作为结束后的固定实验结果。Mock gas 必须标明合成。已有 `gas.csv` 仅支持同 owner/token/recipient 的 20 次转账 gas review，不能推断另外三类指标。
 

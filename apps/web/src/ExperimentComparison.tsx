@@ -67,7 +67,7 @@ function MetricChart({
                 {g.maxWaitMs
                   ? `${g.maxWaitMs}ms`
                   : g.variant === "baseline"
-                    ? "base"
+                    ? "baseline"
                     : "cap"}
               </small>
             </span>
@@ -239,6 +239,20 @@ export default function ExperimentComparison({
           review of the bundled experiments does not apply to this file.
         </Notice>
       )}
+      <div className="experiment-legend" aria-label="Chart legend">
+        <span>
+          <i className="legend-swatch baseline" />
+          Baseline
+        </span>
+        <span>
+          <i className="legend-swatch" />
+          Batch
+        </span>
+        <span>
+          <i className="legend-dot" />
+          Individual run
+        </span>
+      </div>
       <div className="experiment-charts">
         <MetricChart
           title="Throughput"
@@ -262,10 +276,17 @@ export default function ExperimentComparison({
           fixedScale={!!recorded}
         />
         <div className="experiment-failures">
-          <h3>Observed execution failures</h3>
+          <div className="experiment-failure-heading">
+            <h3>Observed execution failures</h3>
+            {recorded && (
+              <span className="scope-label">Valid requests only</span>
+            )}
+          </div>
           {attempted !== undefined ? (
             <>
-              <strong>
+              <strong
+                className={failed === 0 ? "result-positive" : "result-negative"}
+              >
                 {failed} <span>/ {numeric(attempted, 0)} attempted</span>
               </strong>
               <p>
@@ -329,11 +350,25 @@ export default function ExperimentComparison({
                 <td>{spread(g.p95, 0)}</td>
                 <td>{spread(g.gas, 1)}</td>
                 <td>
-                  {g.gasReduction === null
-                    ? "N/A"
-                    : g.variant === "baseline"
-                      ? "Reference"
-                      : `${numeric(-g.gasReduction * 100, 1)}%`}
+                  {g.gasReduction === null ? (
+                    "N/A"
+                  ) : g.variant === "baseline" ? (
+                    "Reference"
+                  ) : (
+                    <span
+                      className={
+                        g.gasReduction > 0
+                          ? "result-positive"
+                          : g.gasReduction < 0
+                            ? "result-negative"
+                            : undefined
+                      }
+                    >
+                      {g.gasReduction === 0
+                        ? "No change"
+                        : `${g.gasReduction > 0 ? "↓" : "↑"} ${numeric(Math.abs(g.gasReduction) * 100, 1)}% ${g.gasReduction > 0 ? "less" : "more"}`}
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}
