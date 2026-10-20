@@ -16,16 +16,25 @@ existed.
 
 ## Instructions given to the coding agent
 
+By member E:
+
+- Clone the repository and check whether the other members' progress lets E begin.
 - Start with batch sizes 1, 5, 10 and 20 on real EVM execution, and output raw data plus a summary
   that matches `apps/web/public/integration/benchmark.schema.json`.
+- Commit the benchmark code to `feat/e-benchmarks`, then rerun both comparisons on Node 22.23.1 so
+  the summary's `commit` field is exact.
+- Check the documentation against the plan and the other members' work, then fill E's gaps in English.
+
+Constraints the agent applied from the repository's own documents, not stated by the member:
+
 - Use the definitions in `apps/web/E_EXPERIMENT_HANDOFF.md`. Do not use mock gas or the cumulative
   `/metrics` window as results.
 - Do not change the contracts, relayer, SDK or frontend.
-- Commit the benchmark code to `feat/e-benchmarks`, then rerun both comparisons on Node 22.23.1 so
-  the summary's `commit` field is exact.
-- Write documentation in English.
 
 ## Design choices
+
+The agent made these choices without consulting the member. Member E accepted them after
+reviewing the code on 2026-10-20 (see `docs/ai-usage-log.md`).
 
 Accepted:
 
@@ -77,6 +86,12 @@ with uncommitted code agreed with these results: gas means within 0.3%, throughp
 within 5%, except throughput and latency at burst size 20. There, one repetition split as
 1, 20, 20, 20, 20, 19; throughput averaged 19.7 instead of 21.0 intents/s, and p50 was 3.0 s instead of 2.6 s. That run is not
 part of the submitted results.
+
+## Review
+
+On 2026-10-20 member E stated that they had reviewed the code and documentation on this
+branch, after a walkthrough of `metrics.ts`, `run.ts` and the README's interpretation by the
+agent. No changes were requested. Specific findings were not recorded.
 
 ## Not yet done
 
