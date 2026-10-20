@@ -1,0 +1,89 @@
+{
+  "runId": "bs-steady10-n100-20261019-b10-r3",
+  "definitions": "benchmarks/README.md#metric-definitions",
+  "counts": {
+    "accepted": 100,
+    "confirmed": 100,
+    "attempted": 100,
+    "failedAfterAttempt": 0,
+    "rejectedBeforeAttempt": 0,
+    "expiredBeforeAttempt": 0,
+    "unfinished": 0,
+    "states": {
+      "CONFIRMED": 100
+    }
+  },
+  "window": {
+    "startMs": 1792382331520,
+    "endMs": 1792382342308,
+    "seconds": 10.788,
+    "kind": "workload-drain",
+    "endedBy": "drained"
+  },
+  "throughput": 9.269558769002595,
+  "failureRate": {
+    "value": 0,
+    "numerator": 0,
+    "denominator": 100
+  },
+  "latencyMs": {
+    "endToEnd": {
+      "sampleCount": 100,
+      "p50": 1274,
+      "p95": 1763,
+      "min": 539,
+      "max": 1785,
+      "mean": 1286.06
+    },
+    "queue": {
+      "sampleCount": 100,
+      "p50": 646,
+      "p95": 1135,
+      "min": 74,
+      "max": 1162,
+      "mean": 662.34
+    },
+    "afterFirstBroadcast": {
+      "sampleCount": 100,
+      "p50": 624,
+      "p95": 661,
+      "min": 465,
+      "max": 661,
+      "mean": 623.72
+    }
+  },
+  "gas": {
+    "totalReceiptGas": "7914173",
+    "revertedReceiptGas": "0",
+    "executionFeesWei": "7962450918649638",
+    "perSuccessfulIntent": "79141.73"
+  },
+  "transactions": {
+    "distinctBroadcast": 11,
+    "withReceipt": 11,
+    "reverted": 0,
+    "unresolved": 0,
+    "transactionFailureRate": 0,
+    "aggregationRatio": 9.090909090909092,
+    "intentsPerSuccessfulTx": {
+      "sampleCount": 11,
+      "p50": 10,
+      "p95": 10,
+      "min": 3,
+      "max": 10,
+      "mean": 9.090909090909092
+    }
+  },
+  "api": {
+    "submitted": 100,
+    "accepted": 100,
+    "rejected": 0
+  },
+  "chainChecks": {
+    "receiptsMatchRelayer": true,
+    "eventsEqualConfirmed": true,
+    "balancesConserved": true,
+    "spentMatchesConfirmed": true,
+    "noncesConsumedExactlyForConfirmed": true
+  }
+}

@@ -17,6 +17,7 @@ metrics must add an entry here and notify the affected owners (plan §9.7).
 | D-009 | 2026-09-28 | A/B | `GET /agents` reads policies via events |
 | D-010 | 2026-09-28 | A/B | Relayer EVM tests use the real executor |
 | D-011 | 2026-10-13 | C | SDK owns signing types, nonces, and the schedule journal |
+| D-012 | 2026-10-19 | E | Experiment protocol and metric definitions |
 
 ## D-001 One executor contract
 
@@ -117,3 +118,31 @@ stay reserved against the budget until the policy's reported `spent` catches up.
 Mock mode has no on-chain policy. `npm run demo:agent` therefore uses an explicit static
 policy and does not move tokens. `contractPolicySource` reads `getAgentPolicy` for a real
 executor. No contract or ABI change.
+
+## D-012 Experiment protocol and metric definitions
+
+`benchmarks/` is E's controlled comparison. Each run starts a fresh Anvil chain (chain 31337,
+Cancun, public test mnemonic) and a relayer with a fresh database, so every run begins from
+the same deterministic accounts, contracts and balances. Setup uses automine and is excluded
+from all metrics. Measurement uses fixed-interval block production (1 s by default). Intents are
+signed with the SDK's `signIntent` before the window opens. One warm-up intent per owner, under
+a separate run label, is confirmed before measurement and excluded.
+
+Baseline is `BATCH_SIZE=1, MAX_WAIT_MS=0`. Batch variants change only `BATCH_SIZE`. In the
+batch-size comparison `MAX_WAIT_MS` stays 0 so that the batch cap is the only variable; waiting
+windows are a separate study. Every other relayer limit stays at its default and is recorded.
+Repetitions alternate configuration order.
+
+Metrics are recomputed from the relayer's raw intent and batch records, not from `/metrics`,
+whose window grows with query time. The window kind is `workload-drain`: from the first durable
+receipt of a measured intent to the last terminal state, or to the observation time if the
+drain times out. Percentiles use nearest rank (`ceil(p·n)−1`), the relayer's method. Failure rate,
+gas per success and the remaining definitions follow `apps/web/E_EXPERIMENT_HANDOFF.md`;
+`benchmarks/README.md` is the reference and `benchmarks/test/metrics.test.ts` checks the
+denominators. A run counts only if an independent chain reconciliation passes: receipts, the
+exact `IntentExecuted` IDs, per-owner balance conservation, `spent`, and consumed nonces.
+
+The summary's `commit` is `git describe --always --dirty` of the benchmark code; result files
+under `benchmarks/results/` do not mark the tree dirty. No contract, ABI, API or state-enum
+change. Affects D (Performance import: schema v1 unchanged) and B (the coordinator's one pending
+transaction limits baseline throughput to about one intent per block; results must say so).
