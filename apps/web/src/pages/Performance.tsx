@@ -167,108 +167,114 @@ export default function Performance({ preview, runId, runFilter }: PageProps) {
           )}
         </Panel>
       </details>
-      <Panel
-        title="Existing contract gas review"
-        subtitle="Historical repository evidence · 20 identical transfers · one measurement per batch size."
-        action={<span className="source-tag">Archived measurement</span>}
-      >
-        <div className="gas-layout">
-          <figure className="gas-figure">
-            <figcaption>
-              Gas per successful intent <span>lower is better</span>
-            </figcaption>
-            <div
-              className="gas-chart"
-              role="img"
-              aria-label="Archived gas per intent: batch 1 105604.2, batch 2 75359.2, batch 5 57221.2, batch 10 51181.1, batch 20 48158.4"
-            >
-              <div className="chart-grid">
-                <span>100k</span>
-                <span>50k</span>
-                <span>0</span>
-              </div>
-              <div className="gas-bars">
-                {gasRows.map((row) => (
-                  <div className="bar-column" key={row.batchSize}>
-                    <span className="bar-value">
-                      {numeric(row.gasPerIntent, 1)}
-                    </span>
-                    <div
-                      className={`gas-bar ${row.batchSize === 1 ? "baseline" : ""}`}
-                      style={{
-                        height: `${(row.gasPerIntent / 120000) * 180}px`,
-                      }}
-                    />
-                    <span className="bar-label">
-                      {row.batchSize === 1
-                        ? "1 · baseline"
-                        : `${row.batchSize} intents`}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </figure>
-          <div className="gas-insight">
-            <span className="eyebrow">Batch size 20 vs. baseline</span>
-            <strong>
-              54.40<span>%</span>
-            </strong>
-            <h3>reduction in gas per intent</h3>
-            <p>
-              Batch size 20 versus singles, sharing the same owner, token and
-              recipient. Setup costs are excluded.
-            </p>
-            <div className="source-links">
-              <a
-                href="https://github.com/dougan21/sc6109-project/blob/7cd09b728396248b8a2839ac89dbaf41efae895f/evidence/gas.json"
-                target="_blank"
-                rel="noreferrer"
+      <details className="live-observation archived-review">
+        <summary>
+          Archived contract gas review
+          <span>Single owner · separate workload · reference only</span>
+        </summary>
+        <Panel
+          title="Existing contract gas review"
+          subtitle="Historical repository evidence · 20 identical transfers · one measurement per batch size."
+          action={<span className="source-tag">Archived measurement</span>}
+        >
+          <div className="gas-layout">
+            <figure className="gas-figure">
+              <figcaption>
+                Gas per successful intent <span>lower is better</span>
+              </figcaption>
+              <div
+                className="gas-chart"
+                role="img"
+                aria-label="Archived gas per intent: batch 1 105604.2, batch 2 75359.2, batch 5 57221.2, batch 10 51181.1, batch 20 48158.4"
               >
-                Raw receipts ↗
-              </a>
-              <a
-                href="https://github.com/dougan21/sc6109-project/blob/7cd09b728396248b8a2839ac89dbaf41efae895f/docs/acceptance.md#L30"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Method & limitations ↗
-              </a>
+                <div className="chart-grid">
+                  <span>100k</span>
+                  <span>50k</span>
+                  <span>0</span>
+                </div>
+                <div className="gas-bars">
+                  {gasRows.map((row) => (
+                    <div className="bar-column" key={row.batchSize}>
+                      <span className="bar-value">
+                        {numeric(row.gasPerIntent, 1)}
+                      </span>
+                      <div
+                        className={`gas-bar ${row.batchSize === 1 ? "baseline" : ""}`}
+                        style={{
+                          height: `${(row.gasPerIntent / 120000) * 180}px`,
+                        }}
+                      />
+                      <span className="bar-label">
+                        {row.batchSize === 1
+                          ? "1 · baseline"
+                          : `${row.batchSize} intents`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </figure>
+            <div className="gas-insight">
+              <span className="eyebrow">Batch size 20 vs. baseline</span>
+              <strong>
+                54.40<span>%</span>
+              </strong>
+              <h3>reduction in gas per intent</h3>
+              <p>
+                Batch size 20 versus singles, sharing the same owner, token and
+                recipient. Setup costs are excluded.
+              </p>
+              <div className="source-links">
+                <a
+                  href="https://github.com/dougan21/sc6109-project/blob/7cd09b728396248b8a2839ac89dbaf41efae895f/evidence/gas.json"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Raw receipts ↗
+                </a>
+                <a
+                  href="https://github.com/dougan21/sc6109-project/blob/7cd09b728396248b8a2839ac89dbaf41efae895f/docs/acceptance.md#L30"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Method & limitations ↗
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Batch size</th>
-                <th>Transfers</th>
-                <th>Transactions</th>
-                <th>Total gas</th>
-                <th>Gas / success</th>
-                <th>Reduction</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gasRows.map((row) => (
-                <tr key={row.batchSize}>
-                  <td>{row.batchSize}</td>
-                  <td>{row.intents}</td>
-                  <td>{row.transactions}</td>
-                  <td>{numeric(row.totalGas, 0)}</td>
-                  <td>{numeric(row.gasPerIntent, 1)}</td>
-                  <td>{numeric(row.reductionPercent)}%</td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Batch size</th>
+                  <th>Transfers</th>
+                  <th>Transactions</th>
+                  <th>Total gas</th>
+                  <th>Gas / success</th>
+                  <th>Reduction</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="panel-footnote">
-          Source: evidence/gas.csv at main@7cd09b7. This review does not
-          establish throughput, latency or failure-rate improvements. Archived
-          deployment addresses are not current.
-        </div>
-      </Panel>
+              </thead>
+              <tbody>
+                {gasRows.map((row) => (
+                  <tr key={row.batchSize}>
+                    <td>{row.batchSize}</td>
+                    <td>{row.intents}</td>
+                    <td>{row.transactions}</td>
+                    <td>{numeric(row.totalGas, 0)}</td>
+                    <td>{numeric(row.gasPerIntent, 1)}</td>
+                    <td>{numeric(row.reductionPercent)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="panel-footnote">
+            Source: evidence/gas.csv at main@7cd09b7. This review does not
+            establish throughput, latency or failure-rate improvements. Archived
+            deployment addresses are not current.
+          </div>
+        </Panel>
+      </details>
     </>
   );
 }
