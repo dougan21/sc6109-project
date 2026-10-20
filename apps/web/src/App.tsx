@@ -168,21 +168,26 @@ export default function App() {
         <main>
           {preview && (
             <Notice tone="preview">
-              <strong>Sample preview.</strong> Records and metrics are examples;
-              wallet actions are disabled. Archived gas data is labeled
-              separately.
+              <strong>Sample preview.</strong> Operational records and live
+              metrics are examples; wallet actions are disabled. Recorded
+              experiments and archived gas data are labeled separately.
             </Notice>
           )}
           {!preview && connection.error && (
-            <Notice tone="error">
-              <strong>Relayer unavailable.</strong> {connection.error}{" "}
+            <Notice tone={route.page === "performance" ? "info" : "error"}>
+              <strong>Live relayer unavailable.</strong>{" "}
+              {route.page === "performance"
+                ? "Recorded experiments remain available below."
+                : connection.error}{" "}
               <button className="inline-button" onClick={connection.refresh}>
                 Retry
               </button>
-              <span className="notice-line">
-                You can inspect the layout with “Preview UI”. Live records are
-                never replaced by sample data.
-              </span>
+              {route.page !== "performance" && (
+                <span className="notice-line">
+                  You can inspect the layout with “Preview UI”. Live records are
+                  never replaced by sample data.
+                </span>
+              )}
             </Notice>
           )}
           {!preview && props.info?.mode === "mock" && (
