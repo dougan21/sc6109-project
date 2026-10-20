@@ -4,7 +4,7 @@
 
 本实现基于组员的 [PR #4](https://github.com/dougan21/sc6109-project/pull/4)（`f0971da`）接入 C 的定时转账 SDK。该依赖已合并到 `main`，D 的 [PR #5](https://github.com/dougan21/sc6109-project/pull/5) 单独提交前端、演示与验证文档。评审与验证结论见 [PR_REVIEW.md](PR_REVIEW.md)。
 
-2026-10-20：已核验并接入 E 的 [PR #6](https://github.com/dougan21/sc6109-project/pull/6)（`25a2410`）归档实验。Performance 默认展示稳态 10 intents/s 与突发 100 intents 两组实测，可直接切换，无需手动找文件。每组 12 次测量，四种 batch cap 各重复三次。接入分支 `codex/d-experiment-integration` 基于 E 的分支；应先合并 #6，再把 D 的接入 PR 改为面向 `main` 后合并。没有改动 E 的代码或原始数据。
+2026-10-20：已核验并接入 E 的 [PR #6](https://github.com/dougan21/sc6109-project/pull/6)（`25a2410`）归档实验；E 的交付已合并到 `main`。Performance 默认展示稳态 10 intents/s 与突发 100 intents 两组实测，可直接切换，无需手动找文件。每组 12 次测量，四种 batch cap 各重复三次。D 的 [PR #7](https://github.com/dougan21/sc6109-project/pull/7) 面向 `main`，单独提交页面接入、独立核验与文档，没有改动 E 的代码或原始数据。
 
 ## 启动
 
