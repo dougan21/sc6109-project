@@ -1,20 +1,19 @@
 # Member E integration handoff
 
-The controlled comparison requested in `apps/web/E_EXPERIMENT_HANDOFF.md` is in `benchmarks/`
-on branch `feat/e-benchmarks`. Code commit `ce13b8b`; results commit `0a8946c`. Protocol and
+The controlled comparison requested in `apps/web/E_EXPERIMENT_HANDOFF.md` is in `benchmarks/`,
+merged into `main` by PR #6 (`2ca64d7`). Code commit `ce13b8b`; results commit `0a8946c`. Protocol and
 metric definitions: decision D-012 and `benchmarks/README.md`.
 
 ## D: Performance page
 
-Import one of these files with the Performance page's file input or paste:
+**Done on 2026-10-20 in PR #7.** Both comparisons are bundled into the Performance page:
 
 - `benchmarks/results/bs-steady10-n100-20261019/summary.json`: steady arrivals at 10 intents/s
 - `benchmarks/results/bs-burst-n100-20261019/summary.json`: 100 intents submitted at once
 
-Each file has 12 measured EVM runs: batch sizes 1, 5, 10 and 20, three repetitions each, all
-with `maxWaitMs=0`. `batchSize=1` is the baseline. The two files have different `workload`
-strings, so they are separate comparisons, as the schema requires. Both passed your
-`parseBenchmark` before they were written. I have not yet imported them in the running page.
+D also checked them independently with `npm run check:experiments`. E reran that check on
+`main@0619528`, and it passed. The review that plan §9.1 assigns to D has been done for the data
+and its presentation; D's record states that it was AI-assisted.
 
 Captions the page or slides should keep:
 
@@ -27,12 +26,11 @@ Captions the page or slides should keep:
 - Gas savings depend on shared state. The 54% in `evidence/gas.csv` is a single-owner contract
   review; these runs use ten independent owners.
 
-Plan §9.1 names D as E's primary reviewer. Please check that the charts and captions match
-`aggregate.md`, and that every chart traces to a `runId` and `rawResults` path.
+These captions still apply to the slides and the video.
 
 ## B: calculation review and relayer notes
 
-Plan §9.1 also asks B to review E's calculations. The definitions are in `benchmarks/metrics.ts`
+**Still open as of 2026-10-20.** Plan §9.1 also asks B to review E's calculations. The definitions are in `benchmarks/metrics.ts`
 and its tests. Please confirm that these choices match your state semantics:
 
 - `submittedAt` is read as the first broadcast intention and `confirmedAt` as the
